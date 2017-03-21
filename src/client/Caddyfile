@@ -1,0 +1,9 @@
+localhost:8081
+root dist
+proxy /api localhost:4001
+log stdout
+
+rewrite {
+  if {path} not_match ^/(static|api)
+  to /index.html
+}
