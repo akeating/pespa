@@ -27,12 +27,16 @@ defmodule Edge.Web do
         send_error(conn, 404, "Not found")
       end
 
-      defp send_error(conn, status, message) do
-        send(conn, status, message)
+      defp send_data(conn, status, data) do
+        send(conn, status, %{ data: data })
       end
 
-      defp send(conn, status, message) do
-        conn |> put_status(status) |> json(%{ error: message })
+      defp send_error(conn, status, message) do
+        send(conn, status, %{ error: message })
+      end
+
+      defp send(conn, status, body) do
+        conn |> put_status(status) |> json(body)
       end
     end
   end
