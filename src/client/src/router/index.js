@@ -17,14 +17,14 @@ const router = new Router({
       beforeEnter: loginGuard
     },
     { path: '/a',
-      name: 'container',
       component: Content,
       beforeEnter: contentGuard,
       children: [
-        { path: 'dashboard', name: 'dashboard', component: Dashboard }
+        { path: 'dashboard', name: 'dashboard', component: Dashboard },
+        { path: '*', redirect: { name: 'dashboard' } }
       ]
     },
-    { path: '*', name: 'default', redirect: '/a/dashboard' }
+    { path: '*', name: 'default', redirect: { name: 'login' } }
   ]
 });
 

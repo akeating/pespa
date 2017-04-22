@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import { http } from 'vue';
 import store from '../store';
 import localStorage from './localStorage';
 
@@ -44,7 +44,7 @@ function whoami({ token }) {
 }
 
 function sendJson(url, body, options) {
-  return Vue.http.post(url, body, options)
+  return http.post(url, body, options)
     .then((httpResponse) => httpResponse.json())
     .then(json => json.data);
 }
