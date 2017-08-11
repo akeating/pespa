@@ -1,0 +1,27 @@
+defmodule Domain.Accounts do
+
+  import Ecto.Query
+  alias Domain.Accounts.User
+  alias Domain.Repo
+  alias Comeonin.Bcrypt
+
+  def exchange_credentials_for_token(email, password) do
+    select = from u in User, where: u.email == ^email
+    user = Repo.one(select)
+    if user == nil do
+      {:error, :not_found}
+    else
+      hash = user.password_hash
+      if Bcrypt.checkpw(password, hash) do
+        {:ok, user}
+      else
+        {:error, :invalid_password}
+      end
+    end
+  end
+
+  def find_user(id) do
+    Repo.get(User, id)
+  end
+
+end

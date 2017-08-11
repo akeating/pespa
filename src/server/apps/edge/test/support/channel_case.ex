@@ -1,4 +1,4 @@
-defmodule Edge.Web.ChannelCase do
+defmodule Edge.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,15 +21,15 @@ defmodule Edge.Web.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint Edge.Web.Endpoint
+      @endpoint Edge.Endpoint
     end
   end
 
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Edge.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Domain.Repo)
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Edge.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Domain.Repo, {:shared, self()})
     end
     :ok
   end

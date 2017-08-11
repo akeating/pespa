@@ -1,4 +1,4 @@
-defmodule Edge.Web.ConnCase do
+defmodule Edge.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -19,18 +19,18 @@ defmodule Edge.Web.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      import Edge.Web.Router.Helpers
+      import Edge.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint Edge.Web.Endpoint
+      @endpoint Edge.Endpoint
     end
   end
 
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Edge.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Domain.Repo)
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Edge.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Domain.Repo, {:shared, self()})
     end
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end

@@ -3,6 +3,8 @@ Single page applications with Elixir and Phoenixframework.
 
 Distinctly separate client (Vuejs) with api server (Elixir/Phoenixframework).
 
+Updated to `phoenix 1.3`.
+
 # Client
 
 
@@ -15,7 +17,7 @@ Distinctly separate client (Vuejs) with api server (Elixir/Phoenixframework).
 
 Requires `postgres`, `node`, `yarn`, `elixir`.
 
-Modify `src/server/apps/edge/config/dev.exs` to suit your `postgres` setup.
+Modify `src/server/apps/domain/config/dev.exs` to suit your `postgres` setup.
 
 In a terminal window:
 ```
