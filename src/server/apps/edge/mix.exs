@@ -43,7 +43,8 @@ defmodule Edge.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:guardian, "~> 0.14"},
-      {:absinthe_plug, "~> 1.3.0"},
+      {:absinthe_plug, "~> 1.4.0-beta.1"},
+      {:absinthe_phoenix, "~> 1.4.0-beta.2"},
       {:domain, in_umbrella: true}
     ]
   end

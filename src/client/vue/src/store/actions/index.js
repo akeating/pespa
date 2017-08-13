@@ -13,6 +13,14 @@ export default {
     });
   },
 
+  incrementCountBy: ({ commit, state }, { by }) => {
+    const token = state.token;
+    return api.incrementCountBy({ token, by }).then(count => {
+      commit('countChanged', { count });
+      return count;
+    });
+  },
+
   logout: ({ commit }) => {
     return Promise.resolve().then(() => {
       api.localStorage.clearToken();

@@ -7,7 +7,8 @@ Vue.use(Vuex);
 
 // root state object.
 const state = {
-  currentUser: null
+  currentUser: null,
+  count: NaN
 };
 
 // getters are functions

@@ -6,7 +6,8 @@ export default {
   isAuthenticated,
   exchangeCredentialsForToken,
   whoami,
-  localStorage
+  localStorage,
+  incrementCountBy
 };
 
 function isAuthenticated() {
@@ -40,6 +41,19 @@ function whoami({ token }) {
   }}`;
   return sendJson('/api/graphql', { query }, options).then(data => {
     return data.whoami;
+  });
+}
+
+function incrementCountBy({ token, by }) {
+  const options = {
+    headers: { Authorization: token }
+  };
+  const query = `mutation IncrementCountBy($by: Int) {
+    incrementCountBy(by: $by)
+  }`;
+  const variables = { by };
+  return sendJson('/api/graphql', { query, variables }, options).then(data => {
+    return data.incrementCountBy;
   });
 }
 

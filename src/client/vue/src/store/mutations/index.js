@@ -11,5 +11,9 @@ export default {
       state.currentUser = null;
       state.token = null;
     }
+  },
+
+  countChanged(state, { count }) {
+    state.count = count;
   }
 };
