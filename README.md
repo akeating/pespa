@@ -3,7 +3,8 @@ Single page applications with Elixir and Phoenixframework.
 
 Distinctly separate client (Vuejs) with api server (Elixir/Phoenixframework).
 
-Updated to `phoenix 1.3`.
+- [x] Updated to `phoenix 1.3`.
+- [x] Demonstration of graphql subsciptions
 
 # Client
 
@@ -30,7 +31,7 @@ mix s
 
 In a another terminal window:
 ```
-cd src/client
+cd src/client/vue
 yarn
 yarn run dev
 ```
@@ -42,7 +43,7 @@ Browse to `http://localhost:8080`. The default email `demo@example.com` and pass
 I'm using `caddy`, but you could use something like `nginx` too.
 
 ```
-cd src/client
+cd src/client/vue
 yarn run build
 caddy
 ```
