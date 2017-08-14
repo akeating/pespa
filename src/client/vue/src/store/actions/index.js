@@ -21,6 +21,15 @@ export default {
     });
   },
 
+  connect: ({ commit, state }) => {
+    const token = state.token;
+    return api.connect({ token }).then(() => {
+      commit('onlineStatusChange', true);
+    }).catch(() => {
+      commit('onlineStatusChange', false);
+    });
+  },
+
   logout: ({ commit }) => {
     return Promise.resolve().then(() => {
       api.localStorage.clearToken();

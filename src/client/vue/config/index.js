@@ -32,6 +32,10 @@ module.exports = {
         target: 'http://localhost:4001',
         changeOrigin: true,
         pathRewrite: {}
+      },
+      '/socket': {
+        target: 'http://localhost:4001',
+        ws:true
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

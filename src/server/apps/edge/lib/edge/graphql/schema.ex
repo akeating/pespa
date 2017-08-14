@@ -29,7 +29,12 @@ defmodule Edge.Graphql.Schema do
   subscription do
 
     field :count_changed, :integer do
-      trigger :increment_count_by
+      topic fn _args ->
+        ""
+      end
+      trigger :increment_count_by, topic: fn _ ->
+        ""
+      end
     end
 
   end

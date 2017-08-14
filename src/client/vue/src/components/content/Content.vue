@@ -2,6 +2,7 @@
   <div class="content">
     <div class="content-header">
       <h3 routerLink="/">Demo</h3>
+      <span>{{online}}</span>
       <div class="controls">
         <div>Welcome, {{name}} ({{email}})</div>
         <button class="btn btn-link" v-on:click="logout">Logout</button>
@@ -18,20 +19,30 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'container',
-  computed: mapState({
-    name: (state) => {
-      return state.currentUser && state.currentUser.name;
-    },
-    email: (state) => {
-      return state.currentUser && state.currentUser.email;
-    }
-  }),
+  computed: {
+    ...mapState({
+      name: (state) => {
+        return state.currentUser && state.currentUser.name;
+      },
+      email: (state) => {
+        return state.currentUser && state.currentUser.email;
+      },
+      online: (state) => {
+        return state.online ? 'Online' : 'Offline';
+      }
+    })
+  },
   methods: {
     logout() {
       this.$store.dispatch('logout').then(() => {
         this.$router.push({ name: 'login' });
       });
     }
+  },
+
+  created: function() {
+    // Creates websocket and subscriptions
+    this.$store.dispatch('connect');
   }
 };
 </script>
@@ -47,9 +58,11 @@ export default {
     align-items: center;
     background-color: #EEE;
     height: 50px;
-    h3 {
+    > h3 {
       margin: 0 15px;
       cursor: pointer;
+    }
+    > span {
     }
     .controls {
       margin-left: auto;

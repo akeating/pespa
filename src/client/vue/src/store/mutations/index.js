@@ -15,5 +15,9 @@ export default {
 
   countChanged(state, { count }) {
     state.count = count;
+  },
+
+  onlineStatusChange(state, value) {
+    state.online = value;
   }
 };
