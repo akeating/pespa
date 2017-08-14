@@ -1,5 +1,6 @@
 defmodule Edge.Endpoint do
   use Phoenix.Endpoint, otp_app: :edge
+  use Absinthe.Phoenix.Endpoint
 
   socket "/socket", Edge.UserSocket
 

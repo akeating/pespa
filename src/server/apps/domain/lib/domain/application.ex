@@ -14,6 +14,7 @@ defmodule Domain.Application do
 
     Supervisor.start_link([
       supervisor(Domain.Repo, []),
+      supervisor(Domain.Accounts.Counter, []),
     ], strategy: :one_for_one, name: Domain.Supervisor)
   end
 end

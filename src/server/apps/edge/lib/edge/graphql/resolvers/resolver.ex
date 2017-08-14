@@ -5,4 +5,8 @@ defmodule Edge.Graphql.Resolvers do
     {:ok, user}
   end
 
+  def increment_count_by %{by: by}, _info do
+    {:ok, Domain.Accounts.increment_count_by by}
+  end
+
 end

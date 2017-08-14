@@ -8,6 +8,7 @@ defmodule Edge.Application do
     children = [
       # Start the endpoint when the application starts
       supervisor(Edge.Endpoint, []),
+      supervisor(Absinthe.Subscription, [Edge.Endpoint]),
       # Start your own worker by calling: Edge.Worker.start_link(arg1, arg2, arg3)
       # worker(Edge.Worker, [arg1, arg2, arg3]),
     ]

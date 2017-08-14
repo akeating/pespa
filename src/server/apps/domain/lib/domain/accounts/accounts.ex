@@ -1,7 +1,7 @@
 defmodule Domain.Accounts do
 
   import Ecto.Query
-  alias Domain.Accounts.User
+  alias Domain.Accounts.{User,Counter}
   alias Domain.Repo
   alias Comeonin.Bcrypt
 
@@ -18,6 +18,10 @@ defmodule Domain.Accounts do
         {:error, :invalid_password}
       end
     end
+  end
+
+  def increment_count_by(by) do
+    Counter.increment_by by
   end
 
   def find_user(id) do

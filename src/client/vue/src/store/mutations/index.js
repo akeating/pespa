@@ -11,5 +11,13 @@ export default {
       state.currentUser = null;
       state.token = null;
     }
+  },
+
+  countChanged(state, { count }) {
+    state.count = count;
+  },
+
+  onlineStatusChange(state, value) {
+    state.online = value;
   }
 };
