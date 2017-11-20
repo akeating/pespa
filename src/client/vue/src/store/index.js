@@ -8,8 +8,8 @@ Vue.use(Vuex);
 // root state object.
 const state = {
   currentUser: null,
-  count: NaN,
-  online: false
+  counter: { version: NaN, count: NaN },
+  connected: false
 };
 
 // getters are functions

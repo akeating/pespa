@@ -1,7 +1,8 @@
 import { http } from 'vue';
 import store from '../store';
 import localStorage from './localStorage';
-import Client from 'absinthe-phoenix/index';
+import newClient from './client';
+import gql from 'graphql-tag';
 
 export default {
   isAuthenticated,
@@ -9,7 +10,8 @@ export default {
   whoami,
   localStorage,
   incrementCountBy,
-  connect
+  connect,
+  subscribe
 };
 
 function isAuthenticated() {
@@ -46,31 +48,18 @@ function whoami({ token }) {
   });
 }
 
-function connect({ token }) {
-  const options = { params: { token } };
-  const client = new Client('/socket', options);
-  return client.connect().then(() => subscribe(client));
+function connect({ token, onError, onStart }) {
+  const opts = { params: { token }, onError, onStart };
+  this.client = newClient(opts);
+  return Promise.resolve();
 }
 
-function subscribe(client) {
-  const subscription = `
-    subscription CountChanged {
-      countChanged
-    }
-    `;
-
-    // Send the subscription. You can also pass, eg, `variables`, as an option.
-  client.subscribe({query: subscription}, ({ subscriptionId, result }) => {
-    // console.log(`Subscription Data [ID:${subscriptionId}]`, result);
-    const count = result.data.countChanged;
-    store.commit('countChanged', { count });
-  })
-    // Log that you've subscribed, if you want to.
-    .then(({ subscriptionId }) => {
-      console.log(`Subscription Created [ID:${subscriptionId}]`);
-    })
-    // Do something with validation errors, etc.
-    .catch(resp => console.error(`Subscription Failed`, resp));
+function subscribe({ query, variables, handler, onError, onStart }) {
+  this.client.subscribe({ query: gql`${query}`, variables }).subscribe({
+    next(result) { handler({ result }); },
+    error(err) { console.log(`Finished with error: ${err}`); },
+    complete() { console.log('Finished'); }
+  });
 }
 
 function incrementCountBy({ token, by }) {
@@ -78,7 +67,10 @@ function incrementCountBy({ token, by }) {
     headers: { Authorization: token }
   };
   const query = `mutation IncrementCountBy($by: Int) {
-    incrementCountBy(by: $by)
+    incrementCountBy(by: $by) {
+      count
+      version
+    }
   }`;
   const variables = { by };
   return sendJson('/api/graphql', { query, variables }, options).then(data => {

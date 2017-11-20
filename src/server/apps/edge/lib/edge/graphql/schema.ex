@@ -13,10 +13,15 @@ defmodule Edge.Graphql.Schema do
   end
 
   mutation do
-    field :increment_count_by, :integer do
+    field :increment_count_by, :counter_state do
       arg :by, :integer
       resolve &Resolvers.increment_count_by/2
     end
+  end
+
+  object :counter_state do
+    field :version, :integer
+    field :count, :integer
   end
 
   @desc "a User"
@@ -28,9 +33,9 @@ defmodule Edge.Graphql.Schema do
 
   subscription do
 
-    field :count_changed, :integer do
-      topic fn _args ->
-        ""
+    field :count_changed, :counter_state do
+      config fn _args, _info ->
+        {:ok, topic: ""}
       end
       trigger :increment_count_by, topic: fn _ ->
         ""

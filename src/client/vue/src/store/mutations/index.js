@@ -13,11 +13,11 @@ export default {
     }
   },
 
-  countChanged(state, { count }) {
-    state.count = count;
+  countChanged(state, { count, version }) {
+    state.counter = { count, version };
   },
 
-  onlineStatusChange(state, value) {
-    state.online = value;
+  connected(state, value) {
+    state.connected = value;
   }
 };
