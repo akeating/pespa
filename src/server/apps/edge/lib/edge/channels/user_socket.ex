@@ -1,6 +1,7 @@
 defmodule Edge.UserSocket do
   use Phoenix.Socket
-  use Absinthe.Phoenix.Socket
+  use Absinthe.Phoenix.Socket,
+    schema: Edge.Graphql.Schema
 
   # channel "__absinthe__:*", Absinthe.Phoenix.Channel
 
@@ -13,7 +14,6 @@ defmodule Edge.UserSocket do
         case Guardian.serializer.from_token(claims["sub"]) do
           { :ok, user } ->
             socket = socket
-            |> assign(:absinthe, %{schema: Edge.Graphql.Schema})
             |> assign(:user_id, user.id)
             {:ok, socket}
           { :error, _reason } -> :error

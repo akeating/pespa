@@ -1,4 +1,4 @@
-nodejs 6.10.2
+nodejs 6.11.0
 postgres 9.6.1
-erlang 19.2
-elixir 1.4.2
+erlang 20.1
+elixir 1.5.2

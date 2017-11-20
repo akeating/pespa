@@ -2,7 +2,9 @@
   <div class="content">
     <div class="content-header">
       <h3 routerLink="/">Demo</h3>
-      <span>{{online}}</span>
+      <div class="scratch">
+        <span v-bind:class="{ connected: connected }">{{connected ? 'Online' : 'Offline'}}</span>
+      </div>
       <div class="controls">
         <div>Welcome, {{name}} ({{email}})</div>
         <button class="btn btn-link" v-on:click="logout">Logout</button>
@@ -20,15 +22,13 @@ import { mapState } from 'vuex';
 export default {
   name: 'container',
   computed: {
+    ...mapState(['connected']),
     ...mapState({
       name: (state) => {
         return state.currentUser && state.currentUser.name;
       },
       email: (state) => {
         return state.currentUser && state.currentUser.email;
-      },
-      online: (state) => {
-        return state.online ? 'Online' : 'Offline';
       }
     })
   },
@@ -42,7 +42,12 @@ export default {
 
   created: function() {
     // Creates websocket and subscriptions
-    this.$store.dispatch('connect');
+    this.$store.dispatch('connect').then((connection) => {
+      this.$store.dispatch('subscribeToCountChanged');
+      // connection.onReconnect = () => {
+      //   this.$store.dispatch('subscribeToCountChanged');
+      // };
+    });
   }
 };
 </script>
@@ -62,7 +67,17 @@ export default {
       margin: 0 15px;
       cursor: pointer;
     }
-    > span {
+    .scratch {
+      flex: 1;
+      text-align: center;
+      > span {
+        padding: 3px 5px;
+        color: white;
+        background-color: red;
+        &.connected {
+          background-color: green;
+        }
+      }
     }
     .controls {
       margin-left: auto;

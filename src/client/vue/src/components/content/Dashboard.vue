@@ -15,7 +15,11 @@ import { mapState } from 'vuex';
 export default {
   name: 'dashboard',
   computed: {
-    ...mapState(['count']),
+    ...mapState({
+      count: (state) => {
+        return state.counter.count;
+      }
+    }),
     hasCount: function() {
       return !isNaN(this.count);
     }
