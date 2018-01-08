@@ -1,11 +1,11 @@
 module Main exposing (main)
 
 import Html
+import Navigation
 import App exposing (init, update, view)
 
-
 main =
-    Html.program
+    Navigation.program App.UrlChange
         { init = init
         , update = update
         , view = view
