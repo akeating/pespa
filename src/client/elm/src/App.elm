@@ -36,4 +36,10 @@ update message model =
 view : Model -> Html Msg
 view model =
     div []
-        [ text "App content" ]
+        [ ul []
+            [ li []
+                [ button [] [ text "Login" ] ]
+            , li []
+                [ button [] [ text "Home" ] ]
+            ]
+        ]
