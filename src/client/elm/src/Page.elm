@@ -3,10 +3,10 @@ module Page exposing (viewPage)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Navigation exposing (Location, newUrl)
+import Navigation exposing (Location)
 import Model exposing (Model)
 import Messages exposing (..)
-
+import Route exposing (Route)
 
 type Page
     = Home
@@ -18,9 +18,9 @@ viewPage model =
         (div []
             [ ul []
                 [ li []
-                    [ button [ onClick ( NewUrl "/login" ) ] [ text "Login" ] ]
+                    [ button [ onClick ( SetRoute Route.Login ) ] [ text "Login" ] ]
                 , li []
-                    [ button [ onClick ( NewUrl "/home" ) ] [ text "Home" ] ]
+                    [ button [ onClick ( SetRoute Route.Home ) ] [ text "Home" ] ]
                 ]
             , ul [] (List.map viewLocation model.history)
             ])

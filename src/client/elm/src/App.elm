@@ -7,7 +7,7 @@ import Navigation exposing (Location, newUrl)
 import Page exposing (viewPage)
 import Model exposing (Model)
 import Messages exposing (..)
-
+import Route exposing (..)
 
 init : Location -> ( Model, Cmd Msg )
 init location =
@@ -27,8 +27,8 @@ update msg model =
             , Cmd.none
             )
 
-        NewUrl url ->
-            ( model, newUrl url )
+        SetRoute route ->
+            ( model, modifyUrl route )
 
 
 -- VIEW
