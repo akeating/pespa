@@ -4,10 +4,9 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Navigation exposing (Location, newUrl)
-
-type alias Model =
-    { history : List Location
-    }
+import Page exposing (viewPage)
+import Model exposing (Model)
+import Messages exposing (..)
 
 
 init : Location -> ( Model, Cmd Msg )
@@ -17,13 +16,7 @@ init location =
     )
 
 
-
 -- UPDATE
-
-
-type Msg
-    = UrlChange Location
-    | NewUrl String
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -38,22 +31,9 @@ update msg model =
             ( model, newUrl url )
 
 
-
 -- VIEW
 
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ ul []
-            [ li []
-                [ button [ onClick ( NewUrl "/login" ) ] [ text "Login" ] ]
-            , li []
-                [ button [ onClick ( NewUrl "/home" ) ] [ text "Home" ] ]
-            ]
-        , ul [] (List.map viewLocation model.history)
-        ]
-
-viewLocation : Location -> Html msg
-viewLocation location =
-    li [] [ text (location.pathname ++ location.hash) ]
+    viewPage model
