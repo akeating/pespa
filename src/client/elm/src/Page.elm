@@ -14,7 +14,7 @@ type Page
 
 viewPage : Model -> Html Msg
 viewPage model =
-    withFrame
+    withFrame model
         (div []
             [ ul []
                 [ li []
@@ -22,7 +22,7 @@ viewPage model =
                 , li []
                     [ button [ onClick ( SetRoute Route.Home ) ] [ text "Home" ] ]
                 ]
-            , ul [] (List.map viewLocation model.history)
+            , viewLocation model.location
             ])
 
 -- INTERNAL
@@ -30,15 +30,14 @@ viewPage model =
 
 viewLocation : Location -> Html Msg
 viewLocation location =
-    li [] [ text (location.pathname ++ location.hash) ]
+    text (location.pathname ++ location.hash)
 
 
-withFrame : (Html Msg) -> Html Msg
-withFrame content =
+withFrame : Model -> Html Msg -> Html Msg
+withFrame model content =
     div [ class "wrapper" ]
         [ header
-        , div [ class "content" ]
-            [ content ]
+        , contentWrapper content
         , footer
         ]
 
@@ -46,6 +45,11 @@ header : Html Msg
 header =
     div [ class "header" ]
         []
+
+contentWrapper : Html Msg -> Html Msg
+contentWrapper content =
+    div [ class "content" ]
+        [ content ]
 
 footer : Html Msg
 footer =

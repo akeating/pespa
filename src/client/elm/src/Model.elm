@@ -3,5 +3,5 @@ import Navigation exposing (Location)
 
 
 type alias Model =
-    { history : List Location
+    { location : Location
     }
