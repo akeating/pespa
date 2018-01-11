@@ -11,7 +11,7 @@ import Route exposing (..)
 
 init : Location -> ( Model, Cmd Msg )
 init location =
-    ( Model [ location ]
+    ( Model location
     , Cmd.none
     )
 
@@ -23,7 +23,7 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
         UrlChange location ->
-            ( { model | history = location :: model.history }
+            ( { model | location = location }
             , Cmd.none
             )
 
