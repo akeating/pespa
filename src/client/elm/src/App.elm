@@ -6,15 +6,25 @@ import Html.Events exposing (..)
 import Navigation exposing (Location, newUrl)
 import Model exposing (Model)
 import Messages exposing (..)
-import Route exposing (..)
+import Route exposing (modifyUrl, fromLocation)
 import Pages.Home
 import Pages.Login
 
 init : Location -> ( Model, Cmd Msg )
 init location =
-    ( Model location
-    , Cmd.none
-    )
+    let
+        route = fromLocation location
+    in
+        case route of
+            Nothing ->
+                ( Model location
+                , modifyUrl Route.Home
+                )
+
+            _ ->
+                ( Model location
+                , Cmd.none
+                )
 
 
 -- UPDATE
