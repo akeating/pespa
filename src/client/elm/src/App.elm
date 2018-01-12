@@ -4,10 +4,11 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Navigation exposing (Location, newUrl)
-import Page exposing (viewPage)
 import Model exposing (Model)
 import Messages exposing (..)
 import Route exposing (..)
+import Pages.Home
+import Pages.Login
 
 init : Location -> ( Model, Cmd Msg )
 init location =
@@ -36,4 +37,15 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    viewPage model
+    let
+        route = fromLocation model.location
+    in
+    case route of
+        Just Route.Login ->
+            Pages.Login.view model
+
+        Just Route.Home ->
+            Pages.Home.view model
+
+        _ ->
+            Pages.Home.view model

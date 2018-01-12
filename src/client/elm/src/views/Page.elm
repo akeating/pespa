@@ -1,4 +1,4 @@
-module Page exposing (viewPage)
+module Views.Page exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -7,25 +7,6 @@ import Navigation exposing (Location)
 import Model exposing (Model)
 import Messages exposing (..)
 import Route exposing (Route)
-
-type Page
-    = Home
-
-
-viewPage : Model -> Html Msg
-viewPage model =
-    withFrame model
-        (div []
-            [ ul []
-                [ li []
-                    [ button [ onClick ( SetRoute Route.Login ) ] [ text "Login" ] ]
-                , li []
-                    [ button [ onClick ( SetRoute Route.Home ) ] [ text "Home" ] ]
-                ]
-            , viewLocation model.location
-            ])
-
--- INTERNAL
 
 
 viewLocation : Location -> Html Msg
@@ -44,7 +25,9 @@ withFrame model content =
 header : Html Msg
 header =
     div [ class "header" ]
-        []
+        [ button [ onClick ( SetRoute Route.Home ) ] [ text "Home" ]
+        , button [ onClick ( SetRoute Route.Login ) ] [ text "Login" ]
+        ]
 
 contentWrapper : Html Msg -> Html Msg
 contentWrapper content =
