@@ -48,9 +48,9 @@ update msg model =
 view : Model -> Html Msg
 view model =
     let
-        route = fromLocation model.location
+        maybeRoute = fromLocation model.location
     in
-    case route of
+    case maybeRoute of
         Just Route.Login ->
             Pages.Login.view model
 
