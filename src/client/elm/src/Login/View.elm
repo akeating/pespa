@@ -6,7 +6,7 @@ import Html.Events exposing (..)
 import Json.Decode as Json exposing (Decoder)
 import Route exposing (Route)
 import Login.Types exposing (..)
-
+import Common.Types
 
 view : Model -> Html Msg
 view model =
@@ -18,7 +18,8 @@ view model =
                     , placeholder "Email"
                     , value model.email
                     , name "email"
-                    , onInput UpdateEmail ] []
+                    , onInput UpdateEmail
+                    ] []
             ]
         , div [ class "form-group" ]
             [ input [ type_ "password"
@@ -27,10 +28,14 @@ view model =
                     , value model.password
                     , placeholder "Password"
                     , name "password"
-                    , onInput UpdatePassword ] []
+                    , onInput UpdatePassword
+                    ] []
             ]
         , div [ class "form-check" ] []
-        , button [ class "btn", onClick Submit ] [ text "Submit" ]
+        , button [ class "btn"
+                 , disabled (not model.valid)
+                 , onClick Submit
+                 ] [ text "Submit" ]
         ])
 
 preventDefault : Attribute Msg

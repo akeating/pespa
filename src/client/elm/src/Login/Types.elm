@@ -1,13 +1,15 @@
 module Login.Types exposing (..)
 
+import Common.Types
 
 type alias Model =
-    { email : String
-    , password : String
+    { email : Common.Types.Email
+    , password : Common.Types.Password
+    , valid : Bool
     }
 
 
 type Msg
     = Submit
-    | UpdateEmail String
-    | UpdatePassword String
+    | UpdateEmail Common.Types.Email
+    | UpdatePassword Common.Types.Password
