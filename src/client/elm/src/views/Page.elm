@@ -23,19 +23,25 @@ withFrame model content =
         ]
 
 header : Model -> Html Msg
-header =
+header model =
     div [ class "header" ]
-        [ button [ onClick ( SetRoute Route.Home ) ] [ text "Home" ]
-        , button [ onClick ( SetRoute Route.Login ) ] [ text "Login" ]
-        , button [ onClick ( SetRoute Route.Content ) ] [ text "Content" ]
+        [ button [ class "btn"
+                 , onClick ( SetRoute Route.Home )
+                 ] [ text "Home" ]
+        , button [ class "btn"
+                 , onClick ( SetRoute Route.Login )
+                 ] [ text "Login" ]
+        , button [ class "btn"
+                 , onClick ( SetRoute Route.Content )
+                 ] [ text "Content" ]
         ]
 
 contentWrapper : Model -> Html Msg -> Html Msg
-contentWrapper content =
+contentWrapper model content =
     div [ class "content" ]
         [ content ]
 
 footer : Model -> Html Msg
-footer =
+footer model =
     div [ class "footer" ]
         []
