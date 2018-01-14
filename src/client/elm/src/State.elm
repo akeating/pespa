@@ -29,6 +29,7 @@ init location =
 initialState : Location -> Model
 initialState location =
     { location = location
+    , user = Nothing
     , home = Home.State.initialState
     , login = Login.State.initialState
     , content = Content.State.initialState
