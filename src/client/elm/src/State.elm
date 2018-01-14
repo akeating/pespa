@@ -47,7 +47,8 @@ update msg model =
             ( model, modifyUrl route )
 
         LoginMsg subMsg ->
-            ( model, Cmd.none )
+            ( { model | login = Login.State.update subMsg model.login }
+            , Cmd.none )
 
         HomeMsg subMsg ->
             ( model, Cmd.none )
