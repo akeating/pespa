@@ -17,24 +17,25 @@ viewLocation location =
 withFrame : Model -> Html Msg -> Html Msg
 withFrame model content =
     div [ class "wrapper" ]
-        [ header
-        , contentWrapper content
-        , footer
+        [ header model
+        , contentWrapper model content
+        , footer model
         ]
 
-header : Html Msg
+header : Model -> Html Msg
 header =
     div [ class "header" ]
         [ button [ onClick ( SetRoute Route.Home ) ] [ text "Home" ]
         , button [ onClick ( SetRoute Route.Login ) ] [ text "Login" ]
+        , button [ onClick ( SetRoute Route.Content ) ] [ text "Content" ]
         ]
 
-contentWrapper : Html Msg -> Html Msg
+contentWrapper : Model -> Html Msg -> Html Msg
 contentWrapper content =
     div [ class "content" ]
         [ content ]
 
-footer : Html Msg
+footer : Model -> Html Msg
 footer =
     div [ class "footer" ]
         []
