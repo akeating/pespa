@@ -9,6 +9,7 @@ import Messages exposing (..)
 import Route exposing (modifyUrl, fromLocation)
 import Pages.Home
 import Pages.Login
+import Pages.Content
 
 init : Location -> ( Model, Cmd Msg )
 init location =
@@ -56,6 +57,9 @@ view model =
 
         Just Route.Home ->
             Pages.Home.view model
+
+        Just Route.Content ->
+            Pages.Content.view model
 
         _ ->
             Pages.Home.view model
