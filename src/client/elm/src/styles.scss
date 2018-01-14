@@ -8,8 +8,12 @@ html, body {
   flex-direction: column;
 
   .header {
-    flex: 0 50px;
+    flex: 0;
     background-color: grey;
+    padding: 10px;
+    .btn {
+      margin-right: 10px;
+    }
   }
 
   .content {
