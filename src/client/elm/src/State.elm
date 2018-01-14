@@ -1,15 +1,14 @@
-module App exposing (..)
+module State exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Navigation exposing (Location, newUrl)
-import Model exposing (Model)
-import Messages exposing (..)
 import Route exposing (modifyUrl, fromLocation)
-import Pages.Home
-import Pages.Login
-import Pages.Content
+import Types exposing (..)
+import Home.State
+import Login.State
+import Content.State
 
 init : Location -> ( Model, Cmd Msg )
 init location =
@@ -18,17 +17,22 @@ init location =
     in
         case route of
             Nothing ->
-                ( Model location
+                ( initialState location
                 , modifyUrl Route.Home
                 )
 
             _ ->
-                ( Model location
+                ( initialState location
                 , Cmd.none
                 )
 
-
--- UPDATE
+initialState : Location -> Model
+initialState location =
+    { location = location
+    , home = Home.State.initialState
+    , login = Login.State.initialState
+    , content = Content.State.initialState
+    }
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -42,24 +46,11 @@ update msg model =
         SetRoute route ->
             ( model, modifyUrl route )
 
+        LoginMsg subMsg ->
+            ( model, Cmd.none )
 
--- VIEW
+        HomeMsg subMsg ->
+            ( model, Cmd.none )
 
-
-view : Model -> Html Msg
-view model =
-    let
-        maybeRoute = fromLocation model.location
-    in
-    case maybeRoute of
-        Just Route.Login ->
-            Pages.Login.view model
-
-        Just Route.Home ->
-            Pages.Home.view model
-
-        Just Route.Content ->
-            Pages.Content.view model
-
-        _ ->
-            Pages.Home.view model
+        ContentMsg subMsg ->
+            ( model, Cmd.none )
