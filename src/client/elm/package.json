@@ -7,7 +7,7 @@
   "scripts": {
     "test": "elm-test",
     "start": "npm run dev",
-    "dev": "webpack-dev-server --hot --port 3000 --colors",
+    "dev": "webpack-dev-server --hot --port 3000 --colors --watch-poll",
     "build": "webpack",
     "prod": "webpack -p",
     "postinstall": "elm-package install -y && elm-test init"
