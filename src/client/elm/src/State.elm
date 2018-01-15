@@ -17,15 +17,11 @@ init location =
         route = fromLocation location
     in
         case route of
-            Nothing ->
+            _ ->
                 ( initialState location
                 , modifyUrl Route.Home
                 )
 
-            _ ->
-                ( initialState location
-                , Cmd.none
-                )
 
 initialState : Location -> Model
 initialState location =
