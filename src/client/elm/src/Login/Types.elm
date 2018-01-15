@@ -1,15 +1,19 @@
 module Login.Types exposing (..)
 
-import Common.Types
+import Http
+import Common.Types exposing (User, Email, Password)
+
 
 type alias Model =
-    { email : Common.Types.Email
-    , password : Common.Types.Password
+    { email : Email
+    , password : Password
     , valid : Bool
+    , submitted : Bool
     }
 
 
 type Msg
     = Submit
-    | UpdateEmail Common.Types.Email
-    | UpdatePassword Common.Types.Password
+    | UpdateEmail Email
+    | UpdatePassword Password
+    | AuthenticateComplete (Result Http.Error User)

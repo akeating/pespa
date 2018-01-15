@@ -1,7 +1,10 @@
 module Login.State exposing (..)
 
+import Task exposing (Task)
 import Login.Types exposing (..)
+import Login.Tasks exposing (authenticate)
 import Common.Types exposing (Email, Password)
+
 
 init : ( Model, Cmd Msg )
 init =
@@ -13,10 +16,11 @@ initialState =
     { email = ""
     , password = ""
     , valid = False
+    , submitted = False
     }
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
         UpdateEmail email ->
@@ -24,27 +28,41 @@ update msg model =
                 newModel = { model | email = email }
                 valid = validate newModel
             in
-                { newModel | valid = valid }
+                ({ newModel | valid = valid }
+                , Cmd.none)
 
         UpdatePassword password ->
             let
                 newModel = { model | password = password }
                 valid = validate newModel
             in
-                { newModel | valid = valid }
+                ({ newModel | valid = valid }
+                , Cmd.none)
 
         Submit ->
-            model
+            ( { model | submitted = True }
+            , authenticate model.email model.password AuthenticateComplete )
+
+        AuthenticateComplete (Ok user) ->
+            ( { model | submitted = False, email = "", password = "", valid = False }
+            , Cmd.none )
+
+        AuthenticateComplete (Err err) ->
+            ( { model | submitted = False }
+            , Cmd.none )
+
 
 validate : Model -> Bool
 validate model =
     validateEmail model.email &&
     validatePassword model.password
 
+
 validateEmail: Email -> Bool
 validateEmail email =
     String.contains "@" email &&
     String.contains "." email
+
 
 validatePassword: Password -> Bool
 validatePassword password =

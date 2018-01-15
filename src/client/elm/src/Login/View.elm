@@ -8,6 +8,7 @@ import Route exposing (Route)
 import Login.Types exposing (..)
 import Common.Types
 
+
 view : Model -> Html Msg
 view model =
     (Html.form [ preventDefault ]
@@ -37,6 +38,7 @@ view model =
                  , onClick Submit
                  ] [ text "Submit" ]
         ])
+
 
 preventDefault : Attribute Msg
 preventDefault =
