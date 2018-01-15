@@ -46,17 +46,22 @@ withFrame model contentClass content =
 
 header : Model -> Html Msg
 header model =
-    div [ class "header" ]
-        [ button [ class "btn"
-                 , onClick ( SetRoute Route.Home )
-                 ] [ text "Home" ]
-        , button [ class "btn"
-                 , onClick ( SetRoute Route.Login )
-                 ] [ text "Login" ]
-        , button [ class "btn"
-                 , onClick ( SetRoute Route.Content )
-                 ] [ text "Content" ]
-        ]
+    let
+        loggedIn = model.user /= Nothing
+        loggedInMessage = if loggedIn then "Logged in True" else "Logged in False"
+    in
+        div [ class "header" ]
+            [ button [ class "btn"
+                     , onClick ( SetRoute Route.Home )
+                     ] [ text "Home" ]
+            , button [ class "btn"
+                     , onClick ( SetRoute Route.Login )
+                     ] [ text "Login" ]
+            , button [ class "btn"
+                     , onClick ( SetRoute Route.Content )
+                     ] [ text "Content" ]
+            , text loggedInMessage
+            ]
 
 contentWrapper : Model -> String -> Html Msg -> Html Msg
 contentWrapper model contentClass content =
