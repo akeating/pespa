@@ -9,6 +9,7 @@ import Types exposing (..)
 import Home.State
 import Login.State
 import Content.State
+import Login.Types
 
 init : Location -> ( Model, Cmd Msg )
 init location =
@@ -47,9 +48,23 @@ update msg model =
         SetRoute route ->
             ( model, modifyUrl route )
 
+        LoginMsg (Login.Types.AuthenticateComplete (Ok user) as subMsg) ->
+            let
+                (loginModel, subCmd) = Login.State.update subMsg model.login
+                newModel = { model | login = loginModel, user = Just user }
+                commands = Cmd.batch [ Cmd.map LoginMsg subCmd
+                                     , modifyUrl Route.Content
+                                     ]
+            in
+                ( { newModel | login = loginModel }
+                , commands )
+
         LoginMsg subMsg ->
-            ( { model | login = Login.State.update subMsg model.login }
-            , Cmd.none )
+            let
+                (loginModel, subCmd) = Login.State.update subMsg model.login
+            in
+                ( { model | login = loginModel }
+                , Cmd.map LoginMsg subCmd)
 
         HomeMsg subMsg ->
             ( model, Cmd.none )

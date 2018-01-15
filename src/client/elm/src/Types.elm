@@ -2,7 +2,7 @@ module Types exposing (..)
 
 import Route exposing (Route)
 import Navigation exposing (Location)
-import Common.Types
+import Common.Types exposing (User)
 import Home.Types
 import Login.Types
 import Content.Types
@@ -22,8 +22,3 @@ type Msg
     | LoginMsg Login.Types.Msg
     | HomeMsg Home.Types.Msg
     | ContentMsg Content.Types.Msg
-
-
-type alias User =
-    { email : Common.Types.Email
-    }
