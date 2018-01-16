@@ -14,65 +14,22 @@ import Content.View as ContentView
 view : Model -> Html Msg
 view model =
     let
-        maybeRoute = fromLocation model.location
+        maybeRoute = fromLocation model.context.location
     in
     case maybeRoute of
         Just Route.Login ->
-            withFrame model "login-page" (LoginView.view model.login |> Html.map LoginMsg)
+            LoginView.view model.login model.context |> Html.map LoginMsg
 
         Just Route.Home ->
-            withFrame model "home-page" (HomeView.view model.home |> Html.map HomeMsg)
+            HomeView.view model.home model.context |> Html.map HomeMsg
 
         Just Route.Content ->
-            withFrame model "content-page" (ContentView.view model.content |> Html.map ContentMsg)
+            ContentView.view model.content model.context |> Html.map ContentMsg
 
         _ ->
-            withFrame model "home-page" (HomeView.view model.home |> Html.map HomeMsg)
-
+            HomeView.view model.home model.context |> Html.map HomeMsg
 
 
 viewLocation : Location -> Html Msg
 viewLocation location =
     text (location.pathname ++ location.hash)
-
-
-withFrame : Model -> String -> Html Msg -> Html Msg
-withFrame model contentClass content =
-    div [ class "wrapper" ]
-        [ header model
-        , contentWrapper model contentClass content
-        , footer model
-        ]
-
-header : Model -> Html Msg
-header model =
-    let
-        loggedIn = model.user /= Nothing
-        loggedInMessage = if loggedIn then "Logged in True" else "Logged in False"
-    in
-        div [ class "header" ]
-            [ button [ class "btn"
-                     , onClick ( SetRoute Route.Home )
-                     ] [ text "Home" ]
-            , button [ class "btn"
-                     , onClick ( SetRoute Route.Login )
-                     ] [ text "Login" ]
-            , button [ class "btn"
-                     , onClick ( SetRoute Route.Content )
-                     ] [ text "Content" ]
-            , text loggedInMessage
-            ]
-
-contentWrapper : Model -> String -> Html Msg -> Html Msg
-contentWrapper model contentClass content =
-    div [ classList
-            [ ( "content", True )
-            , ( contentClass, True )
-            ]
-        ]
-        [ content ]
-
-footer : Model -> Html Msg
-footer model =
-    div [ class "footer" ]
-        []
