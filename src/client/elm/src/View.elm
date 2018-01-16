@@ -14,20 +14,21 @@ import Content.View as ContentView
 view : Model -> Html Msg
 view model =
     let
-        maybeRoute = fromLocation model.context.location
+        { context, homeModel, contentModel, loginModel } = model
+        maybeRoute = fromLocation context.location
     in
-    case maybeRoute of
-        Just Route.Login ->
-            LoginView.view model.login model.context |> Html.map LoginMsg
+        case maybeRoute of
+            Just Route.Login ->
+                LoginView.view loginModel context
 
-        Just Route.Home ->
-            HomeView.view model.home model.context |> Html.map HomeMsg
+            Just Route.Home ->
+                HomeView.view homeModel context
 
-        Just Route.Content ->
-            ContentView.view model.content model.context |> Html.map ContentMsg
+            Just Route.Content ->
+                ContentView.view contentModel context
 
-        _ ->
-            HomeView.view model.home model.context |> Html.map HomeMsg
+            _ ->
+                HomeView.view homeModel context
 
 
 viewLocation : Location -> Html Msg
