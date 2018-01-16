@@ -2,14 +2,13 @@ module Types exposing (..)
 
 import Route exposing (Route)
 import Navigation exposing (Location)
-import Common.Types exposing (User)
+import Common.Types exposing (User, Context)
 import Home.Types
 import Login.Types
 import Content.Types
 
 type alias Model =
-    { location : Location
-    , user : Maybe User
+    { context: Context
     , home : Home.Types.Model
     , login : Login.Types.Model
     , content : Content.Types.Model

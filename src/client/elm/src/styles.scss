@@ -1,46 +1,22 @@
-html, body {
+html, body, .page {
   height: 100%;
 }
 
-.wrapper {
-  height: 100%;
+.page {
   display: flex;
   flex-direction: column;
 
   .header {
-    flex: 0;
-    background-color: grey;
-    padding: 10px;
-    .btn {
-      margin-right: 10px;
-    }
+    flex: 0 0 38px;
   }
 
   .content {
     flex: 1;
-    ul:first-child {
-      display: flex;
-      flex-direction: row;
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      li {
-        width: 60px;
-        height: 40px;
-        cursor: pointer;
-      }
-    }
-    ul {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  .footer {
-    flex: 0 50px;
-    background-color: grey;
   }
 
 }
 
-@import "Login/login"
+
+
+@import "Home/home";
+@import "Login/login";

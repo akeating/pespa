@@ -5,13 +5,13 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Decode as Json exposing (Decoder)
 import Route exposing (Route)
+import Common.Types exposing (Context)
 import Login.Types exposing (..)
-import Common.Types
 
 
-view : Model -> Html Msg
-view model =
-    (Html.form [ preventDefault ]
+view : Model -> Context -> Html Msg
+view model context =
+    (Html.form [ preventDefault, class "login-page" ]
         [ div [ class "form-group" ]
             [ input [ type_ "email"
                     , class "form-control"

@@ -25,8 +25,10 @@ init location =
 
 initialState : Location -> Model
 initialState location =
-    { location = location
-    , user = Nothing
+    { context =
+        { location = location
+        , user = Nothing
+        }
     , home = Home.State.initialState
     , login = Login.State.initialState
     , content = Content.State.initialState
@@ -37,17 +39,23 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
         UrlChange location ->
-            ( { model | location = location }
-            , Cmd.none
-            )
+            let
+                { context } = model
+                newContext = { context | location = location }
+            in
+                ( { model | context = newContext }
+                , Cmd.none
+                )
 
         SetRoute route ->
             ( model, modifyUrl route )
 
         LoginMsg (Login.Types.AuthenticateComplete (Ok user) as subMsg) ->
             let
-                (loginModel, subCmd) = Login.State.update subMsg model.login
-                newModel = { model | login = loginModel, user = Just user }
+                { context } = model
+                newContext = { context | user = Just user }
+                (loginModel, subCmd) = Login.State.update subMsg model.login context
+                newModel = { model | login = loginModel, context = newContext }
                 commands = Cmd.batch [ Cmd.map LoginMsg subCmd
                                      , modifyUrl Route.Content
                                      ]
@@ -57,7 +65,8 @@ update msg model =
 
         LoginMsg subMsg ->
             let
-                (loginModel, subCmd) = Login.State.update subMsg model.login
+                { context } = model
+                (loginModel, subCmd) = Login.State.update subMsg model.login context
             in
                 ( { model | login = loginModel }
                 , Cmd.map LoginMsg subCmd)

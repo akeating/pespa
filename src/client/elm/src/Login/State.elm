@@ -3,7 +3,7 @@ module Login.State exposing (..)
 import Task exposing (Task)
 import Login.Types exposing (..)
 import Login.Tasks exposing (authenticate)
-import Common.Types exposing (Email, Password)
+import Common.Types exposing (Email, Password, Context)
 
 
 init : ( Model, Cmd Msg )
@@ -20,8 +20,8 @@ initialState =
     }
 
 
-update : Msg -> Model -> (Model, Cmd Msg)
-update msg model =
+update : Msg -> Model -> Context -> (Model, Cmd Msg)
+update msg model context =
     case msg of
         UpdateEmail email ->
             let
