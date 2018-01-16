@@ -1,7 +1,7 @@
-module Login.Tasks exposing (..)
+module Tasks exposing (..)
 
 import Task exposing (Task)
-import Common.Types exposing (User, Email, Password)
+import Types exposing (User, Email, Password)
 
 
 authenticate : Email -> Password -> (Result err User -> msg) -> Cmd msg

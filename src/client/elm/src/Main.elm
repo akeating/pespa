@@ -2,7 +2,8 @@ module Main exposing (main)
 
 import Html
 import Navigation
-import State exposing (init, update)
+import Init exposing (init)
+import Update exposing (update)
 import View exposing (view)
 import Types exposing (..)
 
