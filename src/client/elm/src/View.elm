@@ -6,9 +6,10 @@ import Html.Events exposing (..)
 import Navigation exposing (Location)
 import Route exposing (Route, fromLocation)
 import Types exposing (..)
-import Home.View as HomeView
-import Login.View as LoginView
-import Content.View as ContentView
+import Common.Frame as Frame
+import Feature.Home as Home
+import Feature.Login as Login
+import Feature.Content as Content
 
 
 view : Model -> Html Msg
@@ -19,16 +20,16 @@ view model =
     in
         case maybeRoute of
             Just Route.Login ->
-                LoginView.view loginModel context
+                Frame.view model (Login.view loginModel context)
 
             Just Route.Home ->
-                HomeView.view homeModel context
+                Frame.view model (Home.view homeModel context)
 
             Just Route.Content ->
-                ContentView.view contentModel context
+                Frame.view model (Content.view contentModel context)
 
             _ ->
-                HomeView.view homeModel context
+                Frame.view model (Home.view homeModel context)
 
 
 viewLocation : Location -> Html Msg

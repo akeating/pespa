@@ -15,13 +15,13 @@ init location =
     in
         case route of
             _ ->
-                ( initialState location
+                ( initialModel location
                 , modifyUrl Route.Home
                 )
 
 
-initialState : Location -> Model
-initialState location =
+initialModel : Location -> Model
+initialModel location =
     { context =
         { location = location
         , user = Nothing
@@ -33,5 +33,8 @@ initialState location =
         , password = ""
         , valid = False
         , submitted = False
+        }
+    , snackBarModel =
+        { showSnack = False
         }
     }

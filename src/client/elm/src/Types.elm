@@ -23,6 +23,7 @@ type alias Model =
     , homeModel : HomeModel
     , contentModel : ContentModel
     , loginModel : LoginModel
+    , snackBarModel : SnackBarModel
     }
 
 type alias HomeModel =
@@ -38,6 +39,10 @@ type alias LoginModel =
     , submitted : Bool
     }
 
+type alias SnackBarModel =
+    { showSnack : Bool
+    }
+
 type Msg
     = UrlChange Location
     | SetRoute Route
@@ -45,3 +50,4 @@ type Msg
     | LoginUpdateEmail Email
     | LoginUpdatePassword Password
     | AuthenticateComplete (Result Http.Error User)
+    | ApiNetworkError

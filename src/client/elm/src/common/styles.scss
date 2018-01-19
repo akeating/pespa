@@ -1,0 +1,10 @@
+.frame {
+  > .header {
+    background-color: blue;
+    padding-bottom: 5px;
+    button {
+      display: block;
+      margin-left: auto;
+    }
+  }
+}
