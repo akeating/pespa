@@ -3,21 +3,23 @@ module Update exposing (update)
 import Route exposing (modifyUrl)
 import Types exposing (..)
 import Tasks exposing (authenticate)
-import Home.Update as HomeUpdate
-import Login.Update as LoginUpdate
-import Content.Update as ContentUpdate
+import Common.SnackBar as SnackBar
+import Feature.Home as Home
+import Feature.Login as Login
+import Feature.Content as Content
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     let
-        { context, homeModel, contentModel, loginModel } = model
+        { context, homeModel, contentModel, loginModel, snackBarModel } = model
         ( newModel, rootMsg ) = rootUpdate msg model
         ( newContext, contextMsg ) = contextUpdate msg context
-        ( newHomeModel, homeMsg ) = HomeUpdate.update msg homeModel context
-        ( newLoginModel, loginMsg ) = LoginUpdate.update msg loginModel context
-        ( newContentModel, contentMsg ) = ContentUpdate.update msg contentModel context
-        updateModel = combineModels newModel newContext newHomeModel newLoginModel newContentModel
+        ( newSnackBarModel, snackBarMsg ) = SnackBar.update msg snackBarModel context
+        ( newHomeModel, homeMsg ) = Home.update msg homeModel context
+        ( newLoginModel, loginMsg ) = Login.update msg loginModel context
+        ( newContentModel, contentMsg ) = Content.update msg contentModel context
+        updateModel = combineModels newModel newContext newHomeModel newLoginModel newContentModel newSnackBarModel
         updateMsg = combineMsgs [rootMsg, contextMsg, homeMsg, loginMsg, contentMsg]
     in
         ( updateModel, updateMsg )
@@ -56,8 +58,8 @@ contextUpdate msg context =
             ( context, Cmd.none )
 
 
-combineModels : Model -> Context -> HomeModel -> LoginModel -> ContentModel -> Model
-combineModels model context homeModel loginModel contentModel =
+combineModels : Model -> Context -> HomeModel -> LoginModel -> ContentModel -> SnackBarModel -> Model
+combineModels model context homeModel loginModel contentModel snackBarModel =
     { model
     | context = context
     , homeModel = homeModel

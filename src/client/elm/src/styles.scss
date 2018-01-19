@@ -2,22 +2,25 @@ html, body, .page {
   height: 100%;
 }
 
-.page {
-  display: flex;
-  flex-direction: column;
+.frame {
 
-  .header {
-    flex: 0 0 38px;
+  .page {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      flex: 0 0 38px;
+    }
+
+    .content {
+      flex: 1;
+    }
+
   }
-
-  .content {
-    flex: 1;
-  }
-
 }
 
 
-
-@import "content/styles";
-@import "home/styles";
-@import "login/styles";
+@import "common/styles";
+@import "feature/Content";
+@import "feature/Home";
+@import "feature/Login";
