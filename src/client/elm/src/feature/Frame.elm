@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
 import Feature.Frame.SnackBar as SnackBar
+import Common.Utils exposing (combineMsgs)
 
 
 update : Msg -> FrameModel -> Context -> (FrameModel, Cmd Msg)
@@ -14,7 +15,7 @@ update msg frameModel context =
         ( newSnackBarModel, snackBarMsg ) = SnackBar.update msg snackBarModel context
     in
         ( { frameModel | snackBarModel = newSnackBarModel }
-        , Cmd.none )
+        , combineMsgs [snackBarMsg] )
 
 
 view : FrameModel -> Html Msg -> Html Msg

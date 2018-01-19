@@ -55,3 +55,4 @@ type Msg
     | LoginUpdatePassword Password
     | AuthenticateComplete (Result Http.Error User)
     | ApiNetworkError
+    | SnackBarTimeout
