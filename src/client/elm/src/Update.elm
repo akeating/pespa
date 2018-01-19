@@ -7,6 +7,7 @@ import Feature.Frame as Frame
 import Feature.Home as Home
 import Feature.Login as Login
 import Feature.Content as Content
+import Common.Utils exposing (combineMsgs)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -67,8 +68,3 @@ combineModels model context homeModel loginModel contentModel frameModel =
     , contentModel = contentModel
     , frameModel = frameModel
     }
-
-
-combineMsgs : List (Cmd Msg) -> Cmd Msg
-combineMsgs msgs =
-    Cmd.batch msgs

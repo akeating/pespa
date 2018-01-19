@@ -4,6 +4,8 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
+import Common.Utils exposing (delay)
+import Time exposing (Time)
 
 
 update : Msg -> SnackBarModel -> Context -> (SnackBarModel, Cmd Msg)
@@ -14,6 +16,10 @@ update msg snackBarModel context =
         case msg of
             ApiNetworkError ->
                 ( { snackBarModel | showSnack = True }
+                , delay (3 * Time.second) SnackBarTimeout)
+
+            SnackBarTimeout ->
+                ( { snackBarModel | showSnack = False }
                 , Cmd.none )
 
             _ ->
@@ -26,5 +32,5 @@ view snackBarModel =
          , classList [ ("show", snackBarModel.showSnack) ]
          ]
          [ div [ class "snack" ]
-            [ text "tasty snack" ]
+            [ text "We have detected some problems." ]
             ])
