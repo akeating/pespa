@@ -23,7 +23,7 @@ type alias Model =
     , homeModel : HomeModel
     , contentModel : ContentModel
     , loginModel : LoginModel
-    , snackBarModel : SnackBarModel
+    , frameModel : FrameModel
     }
 
 type alias HomeModel =
@@ -37,6 +37,10 @@ type alias LoginModel =
     , password : Password
     , valid : Bool
     , submitted : Bool
+    }
+
+type alias FrameModel =
+    { snackBarModel : SnackBarModel
     }
 
 type alias SnackBarModel =

@@ -1,4 +1,4 @@
-module Common.SnackBar exposing (update, view)
+module Feature.Frame.SnackBar exposing (update, view)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -20,7 +20,11 @@ update msg snackBarModel context =
                 ( snackBarModel, Cmd.none )
 
 
-view : Model -> Html Msg -> Html Msg
-view model page =
-    (div [ class "snack-bar" ]
-        [ ])
+view : SnackBarModel -> Html Msg
+view snackBarModel =
+    (div [ class "snack-bar"
+         , classList [ ("show", snackBarModel.showSnack) ]
+         ]
+         [ div [ class "snack" ]
+            [ text "tasty snack" ]
+            ])

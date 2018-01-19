@@ -3,7 +3,7 @@ module Update exposing (update)
 import Route exposing (modifyUrl)
 import Types exposing (..)
 import Tasks exposing (authenticate)
-import Common.SnackBar as SnackBar
+import Feature.Frame as Frame
 import Feature.Home as Home
 import Feature.Login as Login
 import Feature.Content as Content
@@ -12,15 +12,15 @@ import Feature.Content as Content
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     let
-        { context, homeModel, contentModel, loginModel, snackBarModel } = model
+        { context, homeModel, contentModel, loginModel, frameModel } = model
         ( newModel, rootMsg ) = rootUpdate msg model
         ( newContext, contextMsg ) = contextUpdate msg context
-        ( newSnackBarModel, snackBarMsg ) = SnackBar.update msg snackBarModel context
+        ( newFrameModel, frameMsg ) = Frame.update msg frameModel context
         ( newHomeModel, homeMsg ) = Home.update msg homeModel context
         ( newLoginModel, loginMsg ) = Login.update msg loginModel context
         ( newContentModel, contentMsg ) = Content.update msg contentModel context
-        updateModel = combineModels newModel newContext newHomeModel newLoginModel newContentModel newSnackBarModel
-        updateMsg = combineMsgs [rootMsg, contextMsg, homeMsg, loginMsg, contentMsg]
+        updateModel = combineModels newModel newContext newHomeModel newLoginModel newContentModel newFrameModel
+        updateMsg = combineMsgs [rootMsg, contextMsg, frameMsg, homeMsg, loginMsg, contentMsg]
     in
         ( updateModel, updateMsg )
 
@@ -58,13 +58,14 @@ contextUpdate msg context =
             ( context, Cmd.none )
 
 
-combineModels : Model -> Context -> HomeModel -> LoginModel -> ContentModel -> SnackBarModel -> Model
-combineModels model context homeModel loginModel contentModel snackBarModel =
+combineModels : Model -> Context -> HomeModel -> LoginModel -> ContentModel -> FrameModel -> Model
+combineModels model context homeModel loginModel contentModel frameModel =
     { model
     | context = context
     , homeModel = homeModel
     , loginModel = loginModel
     , contentModel = contentModel
+    , frameModel = frameModel
     }
 
 

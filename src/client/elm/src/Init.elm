@@ -34,7 +34,9 @@ initialModel location =
         , valid = False
         , submitted = False
         }
-    , snackBarModel =
-        { showSnack = False
+    , frameModel =
+        { snackBarModel =
+            { showSnack = False
+            }
         }
     }

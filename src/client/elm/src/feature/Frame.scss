@@ -7,4 +7,11 @@
       margin-left: auto;
     }
   }
+
+  > .page {
+    position: relative;
+    overflow: hidden;
+  }
 }
+
+@import "feature/frame/SnackBar";
