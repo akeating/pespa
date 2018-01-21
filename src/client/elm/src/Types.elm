@@ -49,7 +49,8 @@ type alias SnackBarModel =
     }
 
 type Msg
-    = FocusResult (Result Dom.Error ())
+    = Logout
+    | FocusResult (Result Dom.Error ())
     | UrlChange Location
     | SetRoute Route
     | LoginSubmit

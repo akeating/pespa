@@ -9,7 +9,7 @@ import Route exposing (modifyUrl)
 import Types exposing (..)
 import Route exposing (Route)
 import Tasks exposing (authenticate)
-import Common.View exposing (preventDefault)
+import Common.View exposing (preventDefault, getPageHeader)
 import Common.Utils exposing (setFocus)
 
 
@@ -41,12 +41,7 @@ update msg loginModel context =
 view : LoginModel -> Context -> Html Msg
 view loginModel context =
     (div [ class "login-page" ]
-        [ div [ class "header" ]
-            [ button [ class "btn btn-link"
-                , tabindex -1
-                , onClick LogoClick
-                ] [ text "Logo" ]
-            ]
+        [ getPageHeader context
         , Html.form [ preventDefault "onsubmit" ]
             [ div [ class "form-group" ]
                 [ input [ type_ "email"
