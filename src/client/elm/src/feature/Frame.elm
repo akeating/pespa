@@ -20,13 +20,19 @@ update msg frameModel context =
 
 view : FrameModel -> Html Msg -> Html Msg
 view frameModel page =
-    (div [ class "frame" ]
-        [ div [ class "header" ]
-            [ button [ class "btn"
-                     , onClick ApiNetworkError
-                     ] [ text "Simulate ApiNetworkError" ]
-            ]
-        , div [ class "page" ]
-            [ SnackBar.view frameModel.snackBarModel
-            , page ]
-        ])
+    let
+        user = User "user@example.com"
+    in
+        (div [ class "frame" ]
+            [ div [ class "header" ]
+                [ button [ class "btn"
+                         , onClick (AuthenticateComplete (Ok user))
+                         ] [ text ("Login " ++ user.email) ]
+                , button [ class "btn"
+                         , onClick ApiNetworkError
+                         ] [ text "Simulate ApiNetworkError" ]
+                ]
+            , div [ class "page" ]
+                [ SnackBar.view frameModel.snackBarModel
+                , page ]
+            ])

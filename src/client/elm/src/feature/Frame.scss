@@ -2,9 +2,11 @@
   > .header {
     background-color: blue;
     padding-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
     button {
-      display: block;
-      margin-left: auto;
+      margin-left: 10px;
     }
   }
 

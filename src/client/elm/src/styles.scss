@@ -19,6 +19,16 @@ html, body, .page {
   }
 }
 
+.page-header {
+  background-color: #EEE;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-right: 10px;
+  .filler {
+    flex: 1 0;
+  }
+}
 
 @import "feature/Frame";
 @import "feature/Content";

@@ -42,7 +42,7 @@ view : LoginModel -> Context -> Html Msg
 view loginModel context =
     (div [ class "login-page" ]
         [ div [ class "header" ]
-            [ button [ class "btn"
+            [ button [ class "btn btn-link"
                 , tabindex -1
                 , onClick LogoClick
                 ] [ text "Logo" ]
