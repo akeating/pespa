@@ -3,6 +3,7 @@ module Types exposing (..)
 import Route exposing (Route)
 import Navigation exposing (Location)
 import Http
+import Dom
 
 
 type alias Email = String
@@ -48,7 +49,8 @@ type alias SnackBarModel =
     }
 
 type Msg
-    = UrlChange Location
+    = FocusResult (Result Dom.Error ())
+    | UrlChange Location
     | SetRoute Route
     | LoginSubmit
     | LoginUpdateEmail Email
@@ -56,3 +58,4 @@ type Msg
     | AuthenticateComplete (Result Http.Error User)
     | ApiNetworkError
     | SnackBarTimeout
+    | LogoClick

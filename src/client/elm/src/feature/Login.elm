@@ -1,41 +1,53 @@
 module Feature.Login exposing (update, view)
 
 import Http
+import Task exposing (Task)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Route exposing (modifyUrl)
 import Types exposing (..)
 import Route exposing (Route)
 import Tasks exposing (authenticate)
 import Common.View exposing (preventDefault)
+import Common.Utils exposing (setFocus)
 
 
 update : Msg -> LoginModel -> Context -> (LoginModel, Cmd Msg)
 update msg loginModel context =
-    let
-        { email, password, valid, submitted } = loginModel
-    in
-        case msg of
-            LoginUpdateEmail email ->
-                handleLoginUpdateEmail email loginModel
+    case msg of
+        SetRoute Route.Login ->
+            ( loginModel, setFocus "email1" )
 
-            LoginUpdatePassword password ->
-                handleLoginUpdatePassword password loginModel
+        LogoClick ->
+            ( loginModel, modifyUrl Route.Home )
 
-            LoginSubmit ->
-                handleLoginSubmit loginModel
+        LoginUpdateEmail email ->
+            handleLoginUpdateEmail email loginModel
 
-            AuthenticateComplete result ->
-                handleAuthenticateComplete result loginModel
+        LoginUpdatePassword password ->
+            handleLoginUpdatePassword password loginModel
 
-            _ ->
-                ( loginModel, Cmd.none )
+        LoginSubmit ->
+            handleLoginSubmit loginModel
+
+        AuthenticateComplete result ->
+            handleAuthenticateComplete result loginModel
+
+        _ ->
+            ( loginModel, Cmd.none )
 
 
 view : LoginModel -> Context -> Html Msg
 view loginModel context =
     (div [ class "login-page" ]
-        [ Html.form [ preventDefault "onsubmit" ]
+        [ div [ class "header" ]
+            [ button [ class "btn"
+                , tabindex -1
+                , onClick LogoClick
+                ] [ text "Logo" ]
+            ]
+        , Html.form [ preventDefault "onsubmit" ]
             [ div [ class "form-group" ]
                 [ input [ type_ "email"
                         , class "form-control"
