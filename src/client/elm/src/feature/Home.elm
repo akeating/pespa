@@ -17,6 +17,13 @@ view : HomeModel -> Context -> Html Msg
 view homeModel context =
     (div [ class "home-page" ]
         [ getPageHeader True context
-        , div [ class "content" ]
-            [ text "You are viewing the Home page" ]
+        , viewPageBody homeModel context
+        ])
+
+
+viewPageBody : HomeModel -> Context -> Html Msg
+viewPageBody homeModel context =
+     (div [ class "page-body" ]
+        [ span []
+            [text "You are viewing the Home page"]
         ])
