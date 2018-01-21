@@ -17,5 +17,13 @@ view : ContentModel -> Context -> Html Msg
 view contentModel context =
     (div [ class "content-page" ]
         [ getPageHeader True context
-        , text "You are viewing the Content page"
+        , viewPageBody contentModel context
+        ])
+
+
+viewPageBody : ContentModel -> Context -> Html Msg
+viewPageBody contentModel context =
+     (div [ class "page-body" ]
+        [ span []
+            [text "You are viewing the Content page"]
         ])
