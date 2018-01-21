@@ -16,7 +16,7 @@ update msg homeModel context =
 view : HomeModel -> Context -> Html Msg
 view homeModel context =
     (div [ class "home-page" ]
-        [ getPageHeader True context
+        [ getPageHeader context
         , viewPageBody homeModel context
         ])
 

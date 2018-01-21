@@ -55,6 +55,11 @@ contextUpdate msg context =
             , Cmd.none
             )
 
+        Logout ->
+            ( { context | user = Nothing }
+            , modifyUrl Route.Home
+            )
+
         _ ->
             ( context, Cmd.none )
 

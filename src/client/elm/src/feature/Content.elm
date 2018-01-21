@@ -16,7 +16,7 @@ update msg contentModel context =
 view : ContentModel -> Context -> Html Msg
 view contentModel context =
     (div [ class "content-page" ]
-        [ getPageHeader True context
+        [ getPageHeader context
         , viewPageBody contentModel context
         ])
 
