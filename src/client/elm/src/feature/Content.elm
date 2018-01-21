@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
 import Route exposing (Route)
+import Common.View exposing (getPageHeader)
 
 
 update : Msg -> ContentModel -> Context -> (ContentModel, Cmd Msg)
@@ -15,5 +16,6 @@ update msg contentModel context =
 view : ContentModel -> Context -> Html Msg
 view contentModel context =
     (div [ class "content-page" ]
-        [ text "You are viewing the Content page"
+        [ getPageHeader True context
+        , text "You are viewing the Content page"
         ])
