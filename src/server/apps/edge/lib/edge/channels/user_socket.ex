@@ -2,6 +2,8 @@ defmodule Edge.UserSocket do
   use Phoenix.Socket
   use Absinthe.Phoenix.Socket,
     schema: Edge.Graphql.Schema
+    
+  alias Edge.Guardian
 
   # channel "__absinthe__:*", Absinthe.Phoenix.Channel
 
@@ -9,9 +11,10 @@ defmodule Edge.UserSocket do
   transport :longpoll, Phoenix.Transports.LongPoll
 
   def connect(%{"token" => token}, socket) do
+    IO.inspect token
     case Guardian.decode_and_verify(token) do
       { :ok, claims } ->
-        case Guardian.serializer.from_token(claims["sub"]) do
+        case Guardian.resource_from_claims(claims) do
           { :ok, user } ->
             socket = socket
             |> assign(:user_id, user.id)

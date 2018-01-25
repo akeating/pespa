@@ -1,6 +1,7 @@
 defmodule Edge.ApiController do
   use Edge, :controller
   alias Domain.Accounts
+  alias Edge.Guardian
 
   def exchange_credentials_for_token(conn, %{ "email" => email, "password" => password }) do
     case Accounts.exchange_credentials_for_token(email, password) do
