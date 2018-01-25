@@ -20,10 +20,10 @@ defmodule Domain.Accounts.Counter do
   # request, _from pid, state
   def handle_call({:increment, by}, _from, state) do
     version = state.version + 1
-    newCount = state.count + by
-    newState = %{ version: version, count: newCount }
+    new_count = state.count + by
+    new_state = %{ version: version, count: new_count }
     # {:reply, reply, new_state}
-    {:reply, newState, newState}
+    {:reply, new_state, new_state}
   end
 
 end
