@@ -28,11 +28,12 @@ function isAuthenticated() {
 }
 
 function exchangeCredentialsForToken({ email, password }) {
-  return sendJson('/api/token', { email, password }).then(token => {
-    if (!token) {
-      throw new Error('No token received');
-    }
-    return token;
+  const query = `query ExchangeCredentialsForToken ($email: String!, $password: String!) {
+    exchangeCredentialsForToken(email: $email, password: $password)
+  }`;
+  const variables = { email, password };
+  return sendJson('/api/graphql', { query, variables }).then(data => {
+    return data.exchangeCredentialsForToken;
   });
 }
 
@@ -81,7 +82,12 @@ function incrementCountBy({ token, by }) {
 function sendJson(url, body, options) {
   return http.post(url, body, options)
     .then((httpResponse) => httpResponse.json())
-    .then(json => json.data);
+    .then(({ data, errors }) => {
+      if (errors && errors.length) {
+        return Promise.reject(errors);
+      }
+      return data;
+    });
 }
 
 // function getJson(url, options) {

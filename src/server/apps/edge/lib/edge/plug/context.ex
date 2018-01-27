@@ -7,7 +7,7 @@ defmodule Edge.Plug.Context do
 
   def call(conn, _opts) do
     case Guardian.Plug.current_resource(conn) do
-      nil -> conn
+      # Here user could be nil or Domain.Accounts.User
       user -> put_private(conn, :absinthe, %{context: %{current_user: user}})
     end
   end

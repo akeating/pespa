@@ -1,0 +1,53 @@
+html, body, .page {
+  height: 100%;
+}
+
+.frame {
+
+  .page {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      flex: 0 0 38px;
+    }
+
+    .content {
+      flex: 1;
+    }
+
+  }
+}
+
+.page-header {
+  background-color: #EEE;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px;
+  .btn {
+    border: none;
+  }
+  .filler {
+    flex: 1 0;
+  }
+  .logo-btn {
+    padding-left: 0;
+  }
+  .user-ref {
+    .user-ref-btn {
+      padding-right: 0;
+    }
+    .logged-in {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+}
+
+
+@import "feature/Frame";
+@import "feature/Content";
+@import "feature/Home";
+@import "feature/Login";

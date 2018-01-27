@@ -11,7 +11,7 @@ export default function newClient(opts) {
   const link = new ApolloLink.split(
     operation => hasSubscription(operation.query),
     absintheSocketLink(opts),
-    createHttpLink({uri: '/graphql'})
+    createHttpLink({uri: '/api/graphql'})
   );
 
   const client = new ApolloClient({
