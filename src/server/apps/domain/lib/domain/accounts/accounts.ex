@@ -21,7 +21,7 @@ defmodule Domain.Accounts do
   end
 
   def increment_count_by(by) do
-    Counter.increment_by by
+    {:ok, Counter.increment_by by}
   end
 
   def find_user(id) do

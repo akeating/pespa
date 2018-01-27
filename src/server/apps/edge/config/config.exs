@@ -26,15 +26,18 @@ config :logger, :console,
 config :edge, :generators,
   context_app: false
 
-config :guardian, Guardian,
+config :edge, Edge.Guardian,
   allowed_algos: ["HS512"], # optional
   verify_module: Guardian.JWT,  # optional
   issuer: "pespa",
   ttl: { 1, :days },
   verify_issuer: true, # optional
-  secret_key: "whateverz",
-  serializer: Edge.GuardianSerializer
+  secret_key: "whateverz"
 
+config :edge, Edge.AuthAccessPipeline,
+  module: Edge.Guardian,
+  error_handler: Edge.AuthErrorHandler
+    
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

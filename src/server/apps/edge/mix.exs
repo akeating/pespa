@@ -37,14 +37,14 @@ defmodule Edge.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
+      {:phoenix, "~> 1.3"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:guardian, "~> 0.14"},
-      {:absinthe_plug, "~> 1.4.0"},
-      {:absinthe_phoenix, "~> 1.4.0"},
+      {:guardian, "~> 1.0"},
+      {:absinthe_plug, "~> 1.4"},
+      {:absinthe_phoenix, "~> 1.4"},
       {:domain, in_umbrella: true}
     ]
   end

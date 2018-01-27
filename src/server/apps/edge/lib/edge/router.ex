@@ -15,32 +15,13 @@ defmodule Edge.Router do
     plug Plug.Head
   end
 
-  pipeline :with_token do
-    # Looks for a token in the Authorization header. If one is not found, this does nothing.
-    plug Guardian.Plug.VerifyHeader
-
-    # Looks for a previously verified token. If one is found, continues, otherwise
-    # it will call the :unauthenticated function of Guardian.Plug.ErrorHandlers or your provided handler.
-    plug Guardian.Plug.EnsureAuthenticated
-
-    # Fetches the resource from the Serializer and makes it available via Guardian.Plug.current_resource(conn)
-    # Returns nil if no resource found
-    plug Guardian.Plug.LoadResource
-  end
-
   pipeline :graphql do
     plug Edge.Plug.Context
   end
 
-  scope "/api", Edge do
-    pipe_through :api
-    post "/token", ApiController, :exchange_credentials_for_token
-  end
-
-  # routes that must be authenticated
   scope "/api" do
     pipe_through :api
-    pipe_through :with_token
+    pipe_through Edge.AuthAccessPipeline
 
     scope "/graphql" do
       pipe_through :graphql

@@ -5,6 +5,12 @@ defmodule Edge.Graphql.Schema do
 
   query do
 
+    field :exchange_credentials_for_token, :string do
+      arg :email, :string
+      arg :password, :string
+      resolve &Resolvers.exchange_credentials_for_token/2
+    end
+
     @desc "Who am I?"
     field :whoami, :user do
       resolve &Resolvers.whoami/2
