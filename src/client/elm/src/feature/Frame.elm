@@ -18,14 +18,22 @@ update msg frameModel context =
         , combineMsgs [snackBarMsg] )
 
 
-view : FrameModel -> Html Msg -> Html Msg
-view frameModel page =
+view : FrameModel -> Context -> Html Msg -> Html Msg
+view frameModel context page =
     let
+        buttonDisabled =
+            case context.user of
+                Nothing ->
+                    False
+                _ ->
+                    True
+
         user = User "user@example.com"
     in
         (div [ class "frame" ]
             [ div [ class "header" ]
                 [ button [ class "btn"
+                         , disabled buttonDisabled
                          , onClick (AuthenticateComplete (Ok user))
                          ] [ text ("Login " ++ user.email) ]
                 , button [ class "btn"

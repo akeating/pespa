@@ -20,16 +20,16 @@ view model =
     in
         case maybeRoute of
             Just Route.Login ->
-                Frame.view frameModel (Login.view loginModel context)
+                Frame.view frameModel context (Login.view loginModel context)
 
             Just Route.Home ->
-                Frame.view frameModel (Home.view homeModel context)
+                Frame.view frameModel context (Home.view homeModel context)
 
             Just Route.Content ->
-                Frame.view frameModel (Content.view contentModel context)
+                Frame.view frameModel context (Content.view contentModel context)
 
             _ ->
-                Frame.view frameModel (Home.view homeModel context)
+                Frame.view frameModel context (Home.view homeModel context)
 
 
 viewLocation : Location -> Html Msg
