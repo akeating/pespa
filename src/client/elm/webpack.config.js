@@ -115,7 +115,18 @@ if (TARGET_ENV === 'development') {
             stats: 'errors-only',
             contentBase: path.join(__dirname, "src/assets"),
             // For SPAs: serve index.html in place of 404 responses
-            historyApiFallback: true
+            historyApiFallback: true,
+            proxy: {
+              '/api': {
+                target: 'http://localhost:4001',
+                changeOrigin: true,
+                pathRewrite: {}
+              },
+              '/socket': {
+                target: 'http://localhost:4001',
+                ws:true
+              }
+            }
         }
     });
 }
