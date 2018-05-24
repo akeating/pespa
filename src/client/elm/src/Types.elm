@@ -4,8 +4,6 @@ import Route exposing (Route)
 import Navigation exposing (Location)
 import Http
 import Dom
-import Api.Object exposing (CounterState)
-import Graphqelm.Subscription
 
 
 type alias Email = String
@@ -27,8 +25,6 @@ type alias Model =
     , contentModel : ContentModel
     , loginModel : LoginModel
     , frameModel : FrameModel
-    , graphqlSubscriptionModel : Graphqelm.Subscription.Model Msg (Maybe CounterState)
-    , subscriptionStatus : Graphqelm.Subscription.Status
     , counterState : Maybe CounterState
     }
 
@@ -70,6 +66,3 @@ type Msg
     | ApiNetworkError
     | SnackBarTimeout
     | LogoClick
-    | GraphqlSubscriptionMsg (Graphqelm.Subscription.Msg (Maybe CounterState))
-    | SubscriptionDataReceived (Maybe CounterState)
-    | SubscriptionStatusChanged Graphqelm.Subscription.Status
