@@ -1,10 +1,10 @@
-module Common.Utils exposing (..)
+module Common.Utils exposing (combineMsgs, delay, setFocus)
 
-import Types exposing (..)
-import Task
-import Process
-import Time
 import Browser.Dom exposing (focus)
+import Process
+import Task
+import Time
+import Types exposing (..)
 
 
 combineMsgs : List (Cmd Msg) -> Cmd Msg
@@ -14,8 +14,8 @@ combineMsgs msgs =
 
 delay : Int -> Msg -> Cmd Msg
 delay milliSeconds msg =
-  Process.sleep (toFloat milliSeconds)
-  |> Task.perform (always msg)
+    Process.sleep (toFloat milliSeconds)
+        |> Task.perform (always msg)
 
 
 setFocus : String -> Cmd Msg

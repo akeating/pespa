@@ -1,35 +1,40 @@
-module View exposing (..)
+module View exposing (view)
 
+import Browser exposing (Document)
+import Feature.Content as Content
+import Feature.Frame as Frame
+import Feature.Home as Home
+import Feature.Login as Login
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Route exposing (Route, fromUrl)
 import Types exposing (..)
-import Feature.Frame as Frame
-import Feature.Home as Home
-import Feature.Login as Login
-import Feature.Content as Content
-import Browser exposing (Document)
 
 
 view : Model -> Document Msg
 view model =
     let
-        { context, homeModel, contentModel, loginModel, frameModel } = model
-        maybeRoute = fromUrl context.url
-        body = case maybeRoute of
-            Just Route.Login ->
-                Frame.view frameModel context (Login.view loginModel context)
+        { context, homeModel, contentModel, loginModel, frameModel } =
+            model
 
-            Just Route.Home ->
-                Frame.view frameModel context (Home.view homeModel context)
+        maybeRoute =
+            fromUrl context.url
 
-            Just Route.Content ->
-                Frame.view frameModel context (Content.view contentModel context)
+        body =
+            case maybeRoute of
+                Just Route.Login ->
+                    Frame.view frameModel context (Login.view loginModel context)
 
-            _ ->
-                Frame.view frameModel context (Home.view homeModel context)
+                Just Route.Home ->
+                    Frame.view frameModel context (Home.view homeModel context)
+
+                Just Route.Content ->
+                    Frame.view frameModel context (Content.view contentModel context)
+
+                _ ->
+                    Frame.view frameModel context (Home.view homeModel context)
     in
-        { title = "foo"
-        , body = [body]
-        }
+    { title = "foo"
+    , body = [ body ]
+    }

@@ -1,10 +1,11 @@
-module Route exposing (Route(..), href, fromUrl, routeToString)
+module Route exposing (Route(..), fromUrl, href, routeToString)
 
+import Browser.Navigation
 import Html exposing (Attribute)
 import Html.Attributes as Attr
 import Url exposing (Url)
-import Url.Parser as Url exposing ((</>), Parser, parse, oneOf, s, string)
-import Browser.Navigation
+import Url.Parser as Url exposing ((</>), Parser, oneOf, parse, s, string)
+
 
 
 -- ROUTING --
@@ -42,7 +43,6 @@ routeToString rte =
 
                 Content ->
                     [ "a" ]
-
     in
     "/" ++ String.join "/" pieces
 
@@ -54,6 +54,7 @@ routeToString rte =
 href : Route -> Attribute msg
 href rte =
     Attr.href (routeToString rte)
+
 
 fromUrl : Url -> Maybe Route
 fromUrl url =

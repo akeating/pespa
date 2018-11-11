@@ -1,22 +1,23 @@
-module Common.View exposing (..)
+module Common.View exposing (getLogo, getPageHeader, getUserRef)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Types exposing (..)
 import Route exposing (Route, fromUrl)
+import Types exposing (..)
 
 
 getPageHeader : Context -> Html Msg
 getPageHeader context =
     let
-        route = fromUrl context.url
+        route =
+            fromUrl context.url
     in
     div [ class "page-header" ]
         [ getLogo route
         , div [ class "filler" ] []
         , span [ class "user-ref" ]
-            [getUserRef route context.user]
+            [ getUserRef route context.user ]
         ]
 
 
@@ -28,10 +29,12 @@ getLogo route =
                 [ text "Logo" ]
 
         _ ->
-            button [ class "btn btn-link logo-btn"
+            button
+                [ class "btn btn-link logo-btn"
                 , tabindex -1
                 , onClick LogoClick
-                ] [ text "Logo" ]
+                ]
+                [ text "Logo" ]
 
 
 getUserRef : Maybe Route -> Maybe User -> Html Msg
@@ -46,8 +49,9 @@ getUserRef route maybeUser =
                     div [ class "logged-in" ]
                         [ span []
                             [ text ("Logged in as: " ++ user.email) ]
-                        , button [ class "btn btn-link user-ref-btn", onClick (Logout) ]
-                            [ text "Logout" ]]
+                        , button [ class "btn btn-link user-ref-btn", onClick Logout ]
+                            [ text "Logout" ]
+                        ]
 
                 _ ->
                     button [ class "btn btn-link user-ref-btn", onClick (SetRoute Route.Login) ]

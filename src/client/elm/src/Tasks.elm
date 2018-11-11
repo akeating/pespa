@@ -1,7 +1,7 @@
-module Tasks exposing (..)
+module Tasks exposing (authenticate)
 
 import Task exposing (Task)
-import Types exposing (User, Email, Password)
+import Types exposing (Email, Password, User)
 
 
 authenticate : Email -> Password -> (Result err User -> msg) -> Cmd msg
