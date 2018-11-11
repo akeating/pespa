@@ -3,20 +3,22 @@ module Init exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Navigation exposing (Location, newUrl)
-import Route exposing (modifyUrl, fromLocation)
 import Types exposing (..)
+import Url exposing (Url)
+import Browser.Navigation exposing (Key, pushUrl)
+import Route exposing (fromUrl, routeToString)
 
 
-init : Location -> ( Model, Cmd Msg )
-init location =
+init : () -> Url -> Key -> ( Model, Cmd msg )
+init flags url key =
     let
-        route = fromLocation location
+        route = fromUrl url
     in
         case route of
             _ ->
                 ({ context =
-                    { location = location
+                    { key = key
+                    , url = url
                     , user = Nothing
                     }
                  , homeModel = Nothing
@@ -34,7 +36,8 @@ init location =
                      }
                  , counterState = Nothing
                  }
-                 , Cmd.batch [modifyUrl Route.Home])
+                 ,
+                 Cmd.batch [pushUrl key (routeToString Route.Home)])
 
 
 socketUrl : String

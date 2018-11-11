@@ -1,9 +1,10 @@
-module Route exposing (Route(..), fromLocation, href, modifyUrl)
+module Route exposing (Route(..), href, fromUrl, routeToString)
 
 import Html exposing (Attribute)
 import Html.Attributes as Attr
-import Navigation exposing (Location)
-import UrlParser as Url exposing ((</>), Parser, oneOf, parsePath, s, string)
+import Url exposing (Url)
+import Url.Parser as Url exposing ((</>), Parser, parse, oneOf, s, string)
+import Browser.Navigation
 
 
 -- ROUTING --
@@ -29,10 +30,10 @@ route =
 
 
 routeToString : Route -> String
-routeToString route =
+routeToString rte =
     let
         pieces =
-            case route of
+            case rte of
                 Home ->
                     []
 
@@ -51,17 +52,9 @@ routeToString route =
 
 
 href : Route -> Attribute msg
-href route =
-    Attr.href (routeToString route)
+href rte =
+    Attr.href (routeToString rte)
 
-
-modifyUrl : Route -> Cmd msg
-modifyUrl =
-    routeToString >> Navigation.modifyUrl
-
-
-fromLocation : Location -> Maybe Route
-fromLocation location =
-    case location.pathname of
-        _ ->
-            parsePath route location
+fromUrl : Url -> Maybe Route
+fromUrl url =
+    parse route url

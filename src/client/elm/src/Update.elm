@@ -1,6 +1,7 @@
 module Update exposing (update)
 
-import Route exposing (modifyUrl)
+import Route exposing (routeToString)
+import Browser.Navigation exposing (pushUrl)
 import Types exposing (..)
 import Tasks exposing (authenticate)
 import Feature.Frame as Frame
@@ -33,10 +34,10 @@ rootUpdate msg model =
     in
         case msg of
             SetRoute route ->
-                ( model, modifyUrl route )
+                ( model, pushUrl context.key (routeToString route) )
 
             AuthenticateComplete (Ok user) ->
-                ( model, modifyUrl Route.Content )
+                ( model, pushUrl context.key (routeToString Route.Content) )
 
             _ ->
                 ( model, Cmd.none )
@@ -45,8 +46,8 @@ rootUpdate msg model =
 contextUpdate : Msg -> Context -> (Context, Cmd Msg)
 contextUpdate msg context =
     case msg of
-        UrlChange location ->
-            ( { context | location = location }
+        UrlChange url ->
+            ( { context | url = url }
             , Cmd.none
             )
 
@@ -57,7 +58,7 @@ contextUpdate msg context =
 
         Logout ->
             ( { context | user = Nothing }
-            , modifyUrl Route.Home
+            , pushUrl context.key (routeToString Route.Home)
             )
 
         _ ->

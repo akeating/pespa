@@ -5,7 +5,6 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
 import Common.Utils exposing (delay)
-import Time exposing (Time)
 
 
 update : Msg -> SnackBarModel -> Context -> (SnackBarModel, Cmd Msg)
@@ -16,7 +15,7 @@ update msg snackBarModel context =
         case msg of
             ApiNetworkError ->
                 ( { snackBarModel | showSnack = True }
-                , delay (3 * Time.second) SnackBarTimeout)
+                , delay (3000) SnackBarTimeout)
 
             SnackBarTimeout ->
                 ( { snackBarModel | showSnack = False }

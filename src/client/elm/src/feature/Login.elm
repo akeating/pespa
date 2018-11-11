@@ -5,12 +5,13 @@ import Task exposing (Task)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Route exposing (modifyUrl)
+import Route exposing (routeToString)
 import Types exposing (..)
 import Route exposing (Route)
-import Tasks exposing (authenticate)
-import Common.View exposing (preventDefault, getPageHeader)
+import Common.View exposing (getPageHeader)
 import Common.Utils exposing (setFocus)
+import Ports exposing (authenticate)
+import Browser.Navigation exposing (pushUrl)
 
 
 update : Msg -> LoginModel -> Context -> (LoginModel, Cmd Msg)
@@ -20,7 +21,7 @@ update msg loginModel context =
             ( loginModel, setFocus "email1" )
 
         LogoClick ->
-            ( loginModel, modifyUrl Route.Home )
+            ( loginModel, pushUrl context.key (routeToString Route.Home) )
 
         LoginUpdateEmail email ->
             handleLoginUpdateEmail email loginModel
@@ -42,7 +43,7 @@ view : LoginModel -> Context -> Html Msg
 view loginModel context =
     (div [ class "login-page" ]
         [ getPageHeader context
-        , Html.form [ preventDefault "onsubmit" ]
+        , Html.form [ onSubmit NoOp ]
             [ div [ class "form-group" ]
                 [ input [ type_ "email"
                         , class "form-control"
@@ -95,10 +96,10 @@ handleLoginUpdatePassword password loginModel =
 handleLoginSubmit : LoginModel -> (LoginModel, Cmd Msg)
 handleLoginSubmit loginModel =
     ( { loginModel | submitted = True }
-    , authenticate loginModel.email loginModel.password AuthenticateComplete )
+    , authenticate loginModel.email )
 
 
-handleAuthenticateComplete : Result Http.Error User -> LoginModel -> (LoginModel, Cmd Msg)
+handleAuthenticateComplete : Result AuthenticateError User -> LoginModel -> (LoginModel, Cmd Msg)
 handleAuthenticateComplete result loginModel =
     case result of
         Ok user ->
@@ -131,11 +132,10 @@ handleAuthenticateOk user loginModel =
 --         BadPayload means you got a response back with a nice status code, but the body of
 --             the response was something unexpected. The String in this case is a debugging
 --             message that explains what went wrong with your JSON decoder or whatever.
-handleAuthenticateErr : Http.Error -> LoginModel -> (LoginModel, Cmd Msg)
+handleAuthenticateErr : AuthenticateError -> LoginModel -> (LoginModel, Cmd Msg)
 handleAuthenticateErr err loginModel =
         ( { loginModel | submitted = False }
         , Cmd.none )
-
 
 validate : LoginModel -> Bool
 validate loginModel =

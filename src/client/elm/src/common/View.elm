@@ -4,18 +4,13 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
-import Route exposing (Route, fromLocation)
-
-
-preventDefault : String -> Attribute Msg
-preventDefault event =
-    attribute event "event.preventDefault(); event.stopImmediatePropagation();"
+import Route exposing (Route, fromUrl)
 
 
 getPageHeader : Context -> Html Msg
 getPageHeader context =
     let
-        route = fromLocation context.location
+        route = fromUrl context.url
     in
     div [ class "page-header" ]
         [ getLogo route
@@ -40,13 +35,13 @@ getLogo route =
 
 
 getUserRef : Maybe Route -> Maybe User -> Html Msg
-getUserRef route user =
+getUserRef route maybeUser =
     case route of
         Just Route.Login ->
             text ""
 
         _ ->
-            case user of
+            case maybeUser of
                 Just user ->
                     div [ class "logged-in" ]
                         [ span []

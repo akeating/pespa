@@ -1,9 +1,11 @@
 module Types exposing (..)
 
 import Route exposing (Route)
-import Navigation exposing (Location)
-import Http
-import Dom
+import Browser exposing (UrlRequest)
+import Browser.Navigation exposing (Key)
+import Result
+import Url exposing (Url)
+import Browser.Dom exposing (Error)
 
 
 type alias Email = String
@@ -15,7 +17,8 @@ type alias User =
     }
 
 type alias Context =
-    { location : Location
+    { key : Key
+    , url : Url
     , user : Maybe User
     }
 
@@ -54,15 +57,21 @@ type alias CounterState =
     , count: Int
     }
 
+type AuthenticateError
+    = Bad String
+    | Wrong
+
 type Msg
     = Logout
-    | FocusResult (Result Dom.Error ())
-    | UrlChange Location
+    | FocusResult (Result Error ())
+    | UrlChange Url
+    | ClickedLink UrlRequest
     | SetRoute Route
     | LoginSubmit
     | LoginUpdateEmail Email
     | LoginUpdatePassword Password
-    | AuthenticateComplete (Result Http.Error User)
+    | AuthenticateComplete (Result AuthenticateError User)
     | ApiNetworkError
     | SnackBarTimeout
     | LogoClick
+    | NoOp

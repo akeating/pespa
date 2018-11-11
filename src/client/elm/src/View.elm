@@ -3,22 +3,21 @@ module View exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Navigation exposing (Location)
-import Route exposing (Route, fromLocation)
+import Route exposing (Route, fromUrl)
 import Types exposing (..)
 import Feature.Frame as Frame
 import Feature.Home as Home
 import Feature.Login as Login
 import Feature.Content as Content
+import Browser exposing (Document)
 
 
-view : Model -> Html Msg
+view : Model -> Document Msg
 view model =
     let
         { context, homeModel, contentModel, loginModel, frameModel } = model
-        maybeRoute = fromLocation context.location
-    in
-        case maybeRoute of
+        maybeRoute = fromUrl context.url
+        body = case maybeRoute of
             Just Route.Login ->
                 Frame.view frameModel context (Login.view loginModel context)
 
@@ -30,8 +29,7 @@ view model =
 
             _ ->
                 Frame.view frameModel context (Home.view homeModel context)
-
-
-viewLocation : Location -> Html Msg
-viewLocation location =
-    text (location.pathname ++ location.hash)
+    in
+        { title = "foo"
+        , body = [body]
+        }
