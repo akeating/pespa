@@ -16,16 +16,6 @@ main =
         , update = update
         , view = view
         , subscriptions = subscriptions
-        , onUrlRequest = onUrlRequest
-        , onUrlChange = onUrlChange
+        , onUrlRequest = ClickedLink
+        , onUrlChange = UrlChange
         }
-
-
-onUrlRequest : UrlRequest -> Msg
-onUrlRequest urlRequest =
-    ClickedLink urlRequest
-
-
-onUrlChange : Url -> Msg
-onUrlChange url =
-    UrlChange url
