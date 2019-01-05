@@ -1,13 +1,14 @@
 module Feature.Login exposing (update, view)
 
 import Browser.Navigation exposing (pushUrl)
+import Common.Api as Api exposing (exchangeCredentialsForToken)
 import Common.Utils exposing (setFocus)
 import Common.View exposing (getPageHeader)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
-import Ports exposing (authenticate)
+import RemoteData exposing (RemoteData)
 import Route exposing (Route, routeToString)
 import Task exposing (Task)
 import Types exposing (..)
@@ -33,6 +34,12 @@ update msg loginModel context =
 
         AuthenticateComplete result ->
             handleAuthenticateComplete result loginModel
+
+        GotTokenResponse (RemoteData.Success (Just token)) ->
+            ( loginModel, Api.whoami token )
+
+        GotUserResponse (RemoteData.Success (Just user)) ->
+            handleAuthenticateOk user loginModel
 
         _ ->
             ( loginModel, Cmd.none )
@@ -108,8 +115,12 @@ handleLoginUpdatePassword password loginModel =
 
 handleLoginSubmit : LoginModel -> ( LoginModel, Cmd Msg )
 handleLoginSubmit loginModel =
-    ( { loginModel | submitted = True }
-    , authenticate loginModel.email
+    let
+        { email, password } =
+            loginModel
+    in
+    ( { loginModel | submitted = True, request = RemoteData.Loading }
+    , Api.exchangeCredentialsForToken email password
     )
 
 
@@ -171,4 +182,4 @@ validateEmail email =
 
 validatePassword : Password -> Bool
 validatePassword password =
-    String.length password >= 8
+    String.length password >= 1

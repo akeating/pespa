@@ -1,9 +1,15 @@
-port module Ports exposing (authenticate, handleAuthenticate)
+port module Ports exposing (createSubscriptions, gotSubscriptionData, socketStatusConnected, socketStatusReconnecting)
 
 import Json.Decode exposing (..)
 
 
-port authenticate : String -> Cmd msg
+port createSubscriptions : String -> Cmd msg
 
 
-port handleAuthenticate : (Value -> msg) -> Sub msg
+port gotSubscriptionData : (Json.Decode.Value -> msg) -> Sub msg
+
+
+port socketStatusConnected : (() -> msg) -> Sub msg
+
+
+port socketStatusReconnecting : (() -> msg) -> Sub msg

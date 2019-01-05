@@ -34,7 +34,7 @@ view frameModel context page =
                     True
 
         user =
-            User "user@example.com"
+            User 1 "user@example.com" "Adam Keating"
     in
     div [ class "frame" ]
         [ div [ class "header" ]

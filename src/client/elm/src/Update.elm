@@ -6,8 +6,8 @@ import Feature.Content as Content
 import Feature.Frame as Frame
 import Feature.Home as Home
 import Feature.Login as Login
+import RemoteData exposing (RemoteData)
 import Route exposing (routeToString)
-import Tasks exposing (authenticate)
 import Types exposing (..)
 
 
@@ -57,6 +57,9 @@ rootUpdate msg model =
         AuthenticateComplete (Ok user) ->
             ( model, pushUrl context.key (routeToString Route.Content) )
 
+        GotUserResponse (RemoteData.Success (Just user)) ->
+            ( model, pushUrl context.key (routeToString Route.Content) )
+
         _ ->
             ( model, Cmd.none )
 
@@ -74,10 +77,21 @@ contextUpdate msg context =
             , Cmd.none
             )
 
+        GotUserResponse (RemoteData.Success (Just user)) ->
+            ( { context | user = Just user }
+            , Cmd.none
+            )
+
         Logout ->
             ( { context | user = Nothing }
             , pushUrl context.key (routeToString Route.Home)
             )
+
+        NewSubscriptionStatus newStatus () ->
+            ( { context | subscriptionStatus = newStatus }, Cmd.none )
+
+        GotTokenResponse (RemoteData.Success token) ->
+            ( { context | token = token }, Cmd.none )
 
         _ ->
             ( context, Cmd.none )

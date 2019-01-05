@@ -88,6 +88,7 @@ if (TARGET_ENV === 'development') {
       // Prevents compilation errors causing the hot loader to lose state
       new webpack.NoEmitOnErrorsPlugin()
     ],
+    devtool: 'eval-source-map',
     module: {
       rules: [
         {

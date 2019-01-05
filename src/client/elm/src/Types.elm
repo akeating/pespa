@@ -1,8 +1,11 @@
-module Types exposing (AuthenticateError(..), ContentModel, Context, CounterState, Email, FrameModel, HomeModel, LoginModel, Model, Msg(..), Password, SnackBarModel, User)
+module Types exposing (AuthenticateError(..), ContentModel, Context, CounterState, Email, FrameModel, HomeModel, LoginModel, Model, Msg(..), Password, SnackBarModel, SubscriptionStatus(..), Token, TokenResponse, User, UserResponse)
 
 import Browser exposing (UrlRequest)
 import Browser.Dom exposing (Error)
 import Browser.Navigation exposing (Key)
+import Graphql.Http
+import Json.Decode
+import RemoteData exposing (RemoteData)
 import Result
 import Route exposing (Route)
 import Url exposing (Url)
@@ -16,8 +19,14 @@ type alias Password =
     String
 
 
+type alias Token =
+    String
+
+
 type alias User =
-    { email : Email
+    { id : Int
+    , email : Email
+    , name : String
     }
 
 
@@ -25,6 +34,8 @@ type alias Context =
     { key : Key
     , url : Url
     , user : Maybe User
+    , subscriptionStatus : SubscriptionStatus
+    , token : Maybe Token
     }
 
 
@@ -51,6 +62,7 @@ type alias LoginModel =
     , password : Password
     , valid : Bool
     , submitted : Bool
+    , request : UserResponse
     }
 
 
@@ -75,6 +87,18 @@ type AuthenticateError
     | Wrong
 
 
+type alias TokenResponse =
+    GraphqlData (Maybe Token)
+
+
+type alias UserResponse =
+    GraphqlData (Maybe User)
+
+
+type alias GraphqlData value =
+    RemoteData (Graphql.Http.Error value) value
+
+
 type Msg
     = Logout
     | FocusResult (Result Error ())
@@ -89,3 +113,13 @@ type Msg
     | SnackBarTimeout
     | LogoClick
     | NoOp
+    | SubscriptionDataReceived Json.Decode.Value
+    | NewSubscriptionStatus SubscriptionStatus ()
+    | GotTokenResponse TokenResponse
+    | GotUserResponse UserResponse
+
+
+type SubscriptionStatus
+    = NotConnected
+    | Connected
+    | Reconnecting
