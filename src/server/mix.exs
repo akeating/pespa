@@ -26,7 +26,7 @@ defmodule Server.Mixfile do
   end
 
   defp aliases() do
-    ["s": ["phx.server"]]
+    [ s: ["phx.server"]]
   end
 
 end

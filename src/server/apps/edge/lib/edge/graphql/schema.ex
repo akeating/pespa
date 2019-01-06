@@ -6,8 +6,8 @@ defmodule Edge.Graphql.Schema do
   query do
 
     field :exchange_credentials_for_token, :string do
-      arg :email, :string
-      arg :password, :string
+      arg :email, non_null(:string)
+      arg :password, non_null(:string)
       resolve &Resolvers.exchange_credentials_for_token/2
     end
 
@@ -20,25 +20,24 @@ defmodule Edge.Graphql.Schema do
 
   mutation do
     field :increment_count_by, :counter_state do
-      arg :by, :integer
+      arg :by, non_null(:integer)
       resolve &Resolvers.increment_count_by/2
     end
   end
 
   object :counter_state do
-    field :version, :integer
-    field :count, :integer
+    field :version, non_null(:integer)
+    field :count, non_null(:integer)
   end
 
   @desc "a User"
   object :user do
-    field :id, :integer
-    field :name, :string
-    field :email, :string
+    field :id, non_null(:integer)
+    field :name, non_null(:string)
+    field :email, non_null(:string)
   end
 
   subscription do
-
     field :count_changed, :counter_state do
       config fn _args, _info ->
         {:ok, topic: ""}
