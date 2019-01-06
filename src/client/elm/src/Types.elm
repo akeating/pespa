@@ -125,6 +125,8 @@ type Msg
     | GotTokenResponse TokenResponse
     | GotUserResponse UserResponse
     | GotIncrementResponse IncrementResponse
+    | Decrement
+    | Increment
 
 
 type SubscriptionStatus

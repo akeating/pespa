@@ -35,6 +35,22 @@ update msg contentModel context =
         ContentClick ->
             ( contentModel, pushUrl context.key (routeToString Route.Content) )
 
+        Decrement ->
+            case context.token of
+                Just value ->
+                    ( contentModel, Api.incrementCountBy value -1 )
+
+                _ ->
+                    ( contentModel, Cmd.none )
+
+        Increment ->
+            case context.token of
+                Just value ->
+                    ( contentModel, Api.incrementCountBy value 1 )
+
+                _ ->
+                    ( contentModel, Cmd.none )
+
         _ ->
             ( contentModel, Cmd.none )
 
@@ -62,5 +78,8 @@ viewPageBody contentModel context =
         [ span []
             [ text "You are viewing the Content page" ]
         , span []
-            [ text countString ]
+            [ button [ onClick Decrement ] [ text "-" ]
+            , text (" " ++ countString ++ " ")
+            , button [ onClick Increment ] [ text "+" ]
+            ]
         ]
