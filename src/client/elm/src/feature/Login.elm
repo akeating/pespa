@@ -33,13 +33,13 @@ update msg loginModel context =
             handleLoginSubmit loginModel
 
         AuthenticateComplete result ->
-            handleAuthenticateComplete result loginModel
+            handleAuthenticateComplete result loginModel context
 
         GotTokenResponse (RemoteData.Success (Just token)) ->
             ( loginModel, Api.whoami token )
 
         GotUserResponse (RemoteData.Success (Just user)) ->
-            handleAuthenticateOk user loginModel
+            handleAuthenticateOk user loginModel context
 
         _ ->
             ( loginModel, Cmd.none )
@@ -124,20 +124,29 @@ handleLoginSubmit loginModel =
     )
 
 
-handleAuthenticateComplete : Result AuthenticateError User -> LoginModel -> ( LoginModel, Cmd Msg )
-handleAuthenticateComplete result loginModel =
+handleAuthenticateComplete : Result AuthenticateError User -> LoginModel -> Context -> ( LoginModel, Cmd Msg )
+handleAuthenticateComplete result loginModel context =
     case result of
         Ok user ->
-            handleAuthenticateOk user loginModel
+            handleAuthenticateOk user loginModel context
 
         Err err ->
             handleAuthenticateErr err loginModel
 
 
-handleAuthenticateOk : User -> LoginModel -> ( LoginModel, Cmd Msg )
-handleAuthenticateOk user loginModel =
+handleAuthenticateOk : User -> LoginModel -> Context -> ( LoginModel, Cmd Msg )
+handleAuthenticateOk user loginModel context =
+    let
+        token =
+            case context.token of
+                Just value ->
+                    value
+
+                _ ->
+                    ""
+    in
     ( { loginModel | submitted = False, email = "", password = "", valid = False }
-    , Cmd.none
+    , Api.setupSubscriptions token
     )
 
 

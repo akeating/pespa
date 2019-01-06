@@ -10,18 +10,23 @@ import { Socket as PhoenixSocket } from "phoenix";
 let notifiers = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-  const absintheSocket = AbsintheSocket.create(
-    new PhoenixSocket("ws://localhost:3000/socket")
-  );
+  let absintheSocket = null;
 
   const app = Elm.Main.init({
     node: document.getElementById('root'),
   });
 
-  app.ports.createSubscriptions.subscribe(subscription => {
+  app.ports.createSubscriptions.subscribe(([token, subscription]) => {
     console.log("createSubscriptions called with", [subscription]);
+
     // Remove existing notifiers
-    notifiers.map(notifier => AbsintheSocket.cancel(absintheSocket, notifier));
+    if (absintheSocket) {
+      notifiers.map(notifier => AbsintheSocket.cancel(absintheSocket, notifier));
+    }
+
+    absintheSocket = AbsintheSocket.create(
+      new PhoenixSocket("/socket", { params: { token }})
+    );
 
     // Create new notifiers for each subscription sent
     notifiers = [subscription].map(operation =>

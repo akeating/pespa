@@ -54,7 +54,8 @@ type alias HomeModel =
 
 
 type alias ContentModel =
-    Maybe String
+    { count : Maybe Int
+    }
 
 
 type alias LoginModel =
