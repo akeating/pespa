@@ -41,7 +41,7 @@ defmodule Edge.Mixfile do
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"},
+      {:plug_cowboy, "~> 2.0"},
       {:guardian, "~> 1.0"},
       {:absinthe_plug, "~> 1.4"},
       {:absinthe_phoenix, "~> 1.4"},
@@ -54,6 +54,6 @@ defmodule Edge.Mixfile do
   #
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
-    ["test": ["ecto.create --quiet", "ecto.migrate", "test"]]
+    [test: ["ecto.create --quiet", "ecto.migrate", "test"]]
   end
 end

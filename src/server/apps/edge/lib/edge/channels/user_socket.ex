@@ -7,9 +7,6 @@ defmodule Edge.UserSocket do
 
   # channel "__absinthe__:*", Absinthe.Phoenix.Channel
 
-  transport :websocket, Phoenix.Transports.WebSocket
-  transport :longpoll, Phoenix.Transports.LongPoll
-
   def connect(%{"token" => token}, socket) do
     IO.inspect token
     case Guardian.decode_and_verify(token) do

@@ -1,0 +1,19 @@
+.snack-bar {
+  position: absolute;
+  background-color: red;
+  width: 500px;
+  height: 75px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -75px;
+  transition: top 0.25s ease 0s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &.show {
+    top: 0;
+  }
+  .snack {
+    color: white;
+  }
+}
