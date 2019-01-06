@@ -2,7 +2,7 @@ module Feature.Login exposing (update, view)
 
 import Browser.Navigation exposing (pushUrl)
 import Common.Api as Api exposing (exchangeCredentialsForToken)
-import Common.Utils exposing (setFocus)
+import Common.Utils exposing (combineMsgs, setFocus)
 import Common.View exposing (getPageHeader)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -146,7 +146,10 @@ handleAuthenticateOk user loginModel context =
                     ""
     in
     ( { loginModel | submitted = False, email = "", password = "", valid = False }
-    , Api.setupSubscriptions token
+    , combineMsgs
+        [ Api.setupSubscriptions token
+        , Api.incrementCountBy token 0
+        ]
     )
 
 

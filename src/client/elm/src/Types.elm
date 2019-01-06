@@ -96,6 +96,10 @@ type alias UserResponse =
     GraphqlData (Maybe User)
 
 
+type alias IncrementResponse =
+    GraphqlData (Maybe CounterState)
+
+
 type alias GraphqlData value =
     RemoteData (Graphql.Http.Error value) value
 
@@ -118,6 +122,7 @@ type Msg
     | NewSubscriptionStatus SubscriptionStatus ()
     | GotTokenResponse TokenResponse
     | GotUserResponse UserResponse
+    | GotIncrementResponse IncrementResponse
 
 
 type SubscriptionStatus

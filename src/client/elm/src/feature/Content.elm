@@ -5,14 +5,25 @@ import Common.View exposing (getPageHeader)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import RemoteData exposing (RemoteData)
 import Route exposing (Route)
 import Types exposing (..)
 
 
 update : Msg -> ContentModel -> Context -> ( ContentModel, Cmd Msg )
 update msg contentModel context =
-    case Api.unpackSubscriptionData msg of
-        Just counterState ->
+    case msg of
+        SubscriptionDataReceived newData ->
+            case Api.unpackSubscriptionData newData of
+                Just counterState ->
+                    ( { contentModel | count = Just counterState.count }
+                    , Cmd.none
+                    )
+
+                _ ->
+                    ( contentModel, Cmd.none )
+
+        GotIncrementResponse (RemoteData.Success (Just counterState)) ->
             ( { contentModel | count = Just counterState.count }
             , Cmd.none
             )

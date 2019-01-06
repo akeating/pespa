@@ -1,5 +1,6 @@
-module Common.Api exposing (exchangeCredentialsForToken, setupSubscriptions, unpackSubscriptionData, whoami)
+module Common.Api exposing (exchangeCredentialsForToken, incrementCountBy, setupSubscriptions, unpackSubscriptionData, whoami)
 
+import Auto.Mutation
 import Auto.Object
 import Auto.Object.CounterState
 import Auto.Object.User
@@ -62,16 +63,27 @@ subscriptionDocument =
         )
 
 
-unpackSubscriptionData : Msg -> Maybe CounterState
-unpackSubscriptionData msg =
-    case msg of
-        SubscriptionDataReceived newData ->
-            case Json.Decode.decodeValue (subscriptionDocument |> Graphql.Document.decoder) newData of
-                Ok counterState ->
-                    counterState
+unpackSubscriptionData : Json.Decode.Value -> Maybe CounterState
+unpackSubscriptionData newData =
+    case Json.Decode.decodeValue (subscriptionDocument |> Graphql.Document.decoder) newData of
+        Ok counterState ->
+            counterState
 
-                Err _ ->
-                    Nothing
-
-        _ ->
+        Err _ ->
             Nothing
+
+
+incrementCountBy : String -> Int -> Cmd Msg
+incrementCountBy token by =
+    incrementCountByMutation by
+        |> Graphql.Http.mutationRequest "/api/graphql"
+        |> Graphql.Http.withHeader "authorization" token
+        |> Graphql.Http.send (RemoteData.fromResult >> GotIncrementResponse)
+
+
+incrementCountByMutation : Int -> SelectionSet (Maybe Types.CounterState) RootMutation
+incrementCountByMutation by =
+    Auto.Mutation.incrementCountBy { by = by } <|
+        SelectionSet.map2 Types.CounterState
+            Auto.Object.CounterState.version
+            Auto.Object.CounterState.count
