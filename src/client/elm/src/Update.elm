@@ -6,6 +6,7 @@ import Feature.Content as Content
 import Feature.Frame as Frame
 import Feature.Home as Home
 import Feature.Login as Login
+import Ports exposing (disconnectSocket)
 import RemoteData exposing (RemoteData)
 import Route exposing (routeToString)
 import Types exposing (..)
@@ -76,7 +77,10 @@ contextUpdate msg context =
 
         Logout ->
             ( { context | user = Nothing, token = Nothing }
-            , pushUrl context.key (routeToString Route.Home)
+            , combineMsgs
+                [ pushUrl context.key (routeToString Route.Home)
+                , disconnectSocket ()
+                ]
             )
 
         NewSubscriptionStatus newStatus () ->

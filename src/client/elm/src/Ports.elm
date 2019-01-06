@@ -1,4 +1,4 @@
-port module Ports exposing (createSubscriptions, gotSubscriptionData, socketStatusConnected, socketStatusReconnecting)
+port module Ports exposing (createSubscriptions, disconnectSocket, gotSubscriptionData, socketStatusClosed, socketStatusConnected, socketStatusReconnecting)
 
 import Json.Decode exposing (..)
 import Types exposing (Token)
@@ -14,3 +14,9 @@ port socketStatusConnected : (() -> msg) -> Sub msg
 
 
 port socketStatusReconnecting : (() -> msg) -> Sub msg
+
+
+port disconnectSocket : () -> Cmd msg
+
+
+port socketStatusClosed : (() -> msg) -> Sub msg

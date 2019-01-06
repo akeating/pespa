@@ -11,9 +11,24 @@ let notifiers = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   let absintheSocket = null;
+  let phoenixSocket = null;
 
   const app = Elm.Main.init({
     node: document.getElementById('root'),
+  });
+
+  app.ports.disconnectSocket.subscribe(() => {
+    console.log("disconnect called");
+    // Remove existing notifiers
+    if (absintheSocket) {
+      notifiers.map(notifier => AbsintheSocket.cancel(absintheSocket, notifier));
+    }
+    if (phoenixSocket) {
+      phoenixSocket.disconnect(() => {
+        app.ports.socketStatusClosed.send(null);
+      });
+      phoenixSocket = null;
+    }
   });
 
   app.ports.createSubscriptions.subscribe(([token, subscription]) => {
@@ -24,8 +39,12 @@ document.addEventListener("DOMContentLoaded", () => {
       notifiers.map(notifier => AbsintheSocket.cancel(absintheSocket, notifier));
     }
 
+    if (!phoenixSocket) {
+      phoenixSocket = new PhoenixSocket("/socket", { params: { token }});
+    }
+
     absintheSocket = AbsintheSocket.create(
-      new PhoenixSocket("/socket", { params: { token }})
+      phoenixSocket
     );
 
     // Create new notifiers for each subscription sent

@@ -1,7 +1,7 @@
 module Subscriptions exposing (subscriptions)
 
 import Json.Decode exposing (Error, Value, decodeValue, field, string)
-import Ports exposing (gotSubscriptionData, socketStatusConnected, socketStatusReconnecting)
+import Ports exposing (gotSubscriptionData, socketStatusClosed, socketStatusConnected, socketStatusReconnecting)
 import Result
 import Types exposing (..)
 
@@ -12,4 +12,5 @@ subscriptions model =
         [ gotSubscriptionData SubscriptionDataReceived
         , socketStatusConnected (NewSubscriptionStatus Connected)
         , socketStatusReconnecting (NewSubscriptionStatus Reconnecting)
+        , socketStatusClosed SocketClosed
         ]

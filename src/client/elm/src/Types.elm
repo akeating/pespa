@@ -121,6 +121,7 @@ type Msg
     | NoOp
     | SubscriptionDataReceived Json.Decode.Value
     | NewSubscriptionStatus SubscriptionStatus ()
+    | SocketClosed ()
     | GotTokenResponse TokenResponse
     | GotUserResponse UserResponse
     | GotIncrementResponse IncrementResponse
