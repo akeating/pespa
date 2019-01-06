@@ -4,7 +4,7 @@ import Browser.Navigation
 import Html exposing (Attribute)
 import Html.Attributes as Attr
 import Url exposing (Url)
-import Url.Parser as Url exposing ((</>), Parser, oneOf, parse, s, string)
+import Url.Parser as Url exposing ((</>), Parser, oneOf, parse, s, string, top)
 
 
 
@@ -20,7 +20,7 @@ type Route
 route : Parser (Route -> a) a
 route =
     oneOf
-        [ Url.map Home (s "")
+        [ Url.map Home top
         , Url.map Login (s "login")
         , Url.map Content (s "a")
         ]

@@ -24,33 +24,16 @@ update msg frameModel context =
 
 view : FrameModel -> Context -> Html Msg -> Html Msg
 view frameModel context page =
-    let
-        buttonDisabled =
-            case context.user of
-                Nothing ->
-                    False
-
-                _ ->
-                    True
-
-        user =
-            User 1 "user@example.com" "Adam Keating"
-    in
     div [ class "frame" ]
-        [ div [ class "header" ]
-            [ button
-                [ class "btn"
-                , disabled buttonDisabled
-                , onClick (AuthenticateComplete (Ok user))
-                ]
-                [ text ("Login " ++ user.email) ]
-            , button
-                [ class "btn"
-                , onClick ApiNetworkError
-                ]
-                [ text "Simulate ApiNetworkError" ]
-            ]
-        , div [ class "page" ]
+        -- [ div [ class "header" ]
+        --     [ button
+        --         [ class "btn"
+        --         , onClick (SnackAlert "We have detected some problems.")
+        --         ]
+        --         [ text "Simulate SnackAlert" ]
+        --     ]
+        -- ,
+        [ div [ class "page" ]
             [ SnackBar.view frameModel.snackBarModel
             , page
             ]

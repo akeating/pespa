@@ -40,6 +40,7 @@ init flags url key =
               , frameModel =
                     { snackBarModel =
                         { showSnack = False
+                        , message = "Message goes here"
                         }
                     }
               , counterState = Nothing

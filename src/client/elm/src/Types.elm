@@ -74,6 +74,7 @@ type alias FrameModel =
 
 type alias SnackBarModel =
     { showSnack : Bool
+    , message : String
     }
 
 
@@ -113,10 +114,10 @@ type Msg
     | LoginSubmit
     | LoginUpdateEmail Email
     | LoginUpdatePassword Password
-    | AuthenticateComplete (Result AuthenticateError User)
-    | ApiNetworkError
+    | SnackAlert String
     | SnackBarTimeout
     | LogoClick
+    | ContentClick
     | NoOp
     | SubscriptionDataReceived Json.Decode.Value
     | NewSubscriptionStatus SubscriptionStatus ()

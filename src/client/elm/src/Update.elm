@@ -54,9 +54,6 @@ rootUpdate msg model =
         SetRoute route ->
             ( model, pushUrl context.key (routeToString route) )
 
-        AuthenticateComplete (Ok user) ->
-            ( model, pushUrl context.key (routeToString Route.Content) )
-
         GotUserResponse (RemoteData.Success (Just user)) ->
             ( model, pushUrl context.key (routeToString Route.Content) )
 
@@ -72,26 +69,21 @@ contextUpdate msg context =
             , Cmd.none
             )
 
-        AuthenticateComplete (Ok user) ->
-            ( { context | user = Just user }
-            , Cmd.none
-            )
-
         GotUserResponse (RemoteData.Success (Just user)) ->
             ( { context | user = Just user }
             , Cmd.none
             )
 
         Logout ->
-            ( { context | user = Nothing }
+            ( { context | user = Nothing, token = Nothing }
             , pushUrl context.key (routeToString Route.Home)
             )
 
         NewSubscriptionStatus newStatus () ->
             ( { context | subscriptionStatus = newStatus }, Cmd.none )
 
-        GotTokenResponse (RemoteData.Success token) ->
-            ( { context | token = token }, Cmd.none )
+        GotTokenResponse (RemoteData.Success maybeToken) ->
+            ( { context | token = maybeToken }, Cmd.none )
 
         _ ->
             ( context, Cmd.none )

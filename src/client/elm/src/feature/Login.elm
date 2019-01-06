@@ -1,9 +1,10 @@
 module Feature.Login exposing (update, view)
 
-import Browser.Navigation exposing (pushUrl)
 import Common.Api as Api exposing (exchangeCredentialsForToken)
 import Common.Utils exposing (combineMsgs, setFocus)
 import Common.View exposing (getPageHeader)
+import Graphql.Http
+import Graphql.Http.GraphqlError
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -20,9 +21,6 @@ update msg loginModel context =
         SetRoute Route.Login ->
             ( loginModel, setFocus "email1" )
 
-        LogoClick ->
-            ( loginModel, pushUrl context.key (routeToString Route.Home) )
-
         LoginUpdateEmail email ->
             handleLoginUpdateEmail email loginModel
 
@@ -32,14 +30,35 @@ update msg loginModel context =
         LoginSubmit ->
             handleLoginSubmit loginModel
 
-        AuthenticateComplete result ->
-            handleAuthenticateComplete result loginModel context
-
         GotTokenResponse (RemoteData.Success (Just token)) ->
             ( loginModel, Api.whoami token )
 
+        GotTokenResponse (RemoteData.Failure error) ->
+            case error of
+                Graphql.Http.GraphqlError possiblyParsedData errors ->
+                    ( { loginModel | submitted = False }
+                    , Cmd.none
+                    )
+
+                Graphql.Http.HttpError httpError ->
+                    ( { loginModel | submitted = False }
+                    , Cmd.none
+                    )
+
         GotUserResponse (RemoteData.Success (Just user)) ->
             handleAuthenticateOk user loginModel context
+
+        GotUserResponse (RemoteData.Failure error) ->
+            case error of
+                Graphql.Http.GraphqlError possiblyParsedData errors ->
+                    ( { loginModel | submitted = False }
+                    , Cmd.none
+                    )
+
+                Graphql.Http.HttpError httpError ->
+                    ( { loginModel | submitted = False }
+                    , Cmd.none
+                    )
 
         _ ->
             ( loginModel, Cmd.none )
@@ -74,10 +93,9 @@ view loginModel context =
                     ]
                     []
                 ]
-            , div [ class "form-check" ] []
             , button
                 [ class "btn"
-                , disabled (not loginModel.valid)
+                , disabled (not loginModel.valid || loginModel.submitted)
                 , onClick LoginSubmit
                 ]
                 [ text "Submit" ]
@@ -124,16 +142,6 @@ handleLoginSubmit loginModel =
     )
 
 
-handleAuthenticateComplete : Result AuthenticateError User -> LoginModel -> Context -> ( LoginModel, Cmd Msg )
-handleAuthenticateComplete result loginModel context =
-    case result of
-        Ok user ->
-            handleAuthenticateOk user loginModel context
-
-        Err err ->
-            handleAuthenticateErr err loginModel
-
-
 handleAuthenticateOk : User -> LoginModel -> Context -> ( LoginModel, Cmd Msg )
 handleAuthenticateOk user loginModel context =
     let
@@ -171,13 +179,6 @@ handleAuthenticateOk user loginModel context =
 --         BadPayload means you got a response back with a nice status code, but the body of
 --             the response was something unexpected. The String in this case is a debugging
 --             message that explains what went wrong with your JSON decoder or whatever.
-
-
-handleAuthenticateErr : AuthenticateError -> LoginModel -> ( LoginModel, Cmd Msg )
-handleAuthenticateErr err loginModel =
-    ( { loginModel | submitted = False }
-    , Cmd.none
-    )
 
 
 validate : LoginModel -> Bool

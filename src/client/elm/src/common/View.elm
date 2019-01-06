@@ -15,6 +15,7 @@ getPageHeader context =
     in
     div [ class "page-header" ]
         [ getLogo route
+        , getContentLink route context
         , div [ class "filler" ] []
         , span [ class "user-ref" ]
             [ getUserRef route context.user ]
@@ -35,6 +36,26 @@ getLogo route =
                 , onClick LogoClick
                 ]
                 [ text "Logo" ]
+
+
+getContentLink : Maybe Route -> Context -> Html Msg
+getContentLink route context =
+    case route of
+        Just Route.Content ->
+            text ""
+
+        _ ->
+            case context.user of
+                Just user ->
+                    button
+                        [ class "btn btn-link content-btn"
+                        , tabindex -1
+                        , onClick ContentClick
+                        ]
+                        [ text "Content" ]
+
+                _ ->
+                    text ""
 
 
 getUserRef : Maybe Route -> Maybe User -> Html Msg

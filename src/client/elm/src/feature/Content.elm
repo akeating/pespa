@@ -1,12 +1,13 @@
 module Feature.Content exposing (update, view)
 
+import Browser.Navigation exposing (pushUrl)
 import Common.Api as Api exposing (unpackSubscriptionData)
 import Common.View exposing (getPageHeader)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import RemoteData exposing (RemoteData)
-import Route exposing (Route)
+import Route exposing (Route, routeToString)
 import Types exposing (..)
 
 
@@ -27,6 +28,12 @@ update msg contentModel context =
             ( { contentModel | count = Just counterState.count }
             , Cmd.none
             )
+
+        LogoClick ->
+            ( contentModel, pushUrl context.key (routeToString Route.Home) )
+
+        ContentClick ->
+            ( contentModel, pushUrl context.key (routeToString Route.Content) )
 
         _ ->
             ( contentModel, Cmd.none )

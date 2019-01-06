@@ -35,6 +35,6 @@ view model =
                 _ ->
                     Frame.view frameModel context (Home.view homeModel context)
     in
-    { title = "foo"
+    { title = "Elm client"
     , body = [ body ]
     }
