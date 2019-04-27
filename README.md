@@ -3,8 +3,8 @@ Single page applications with Elixir and Phoenixframework.
 
 Distinctly separate clients with api server (Elixir/Phoenixframework).
 
-- [x] Updated to `phoenix 1.4`.
-- [x] Demonstration of graphql subscriptions
+- [x] Updated to `phoenix 1.4.3`.
+- [x] Demonstration of graphql subsciptions
 
 If you connect the client applications in different browser tabs, you will see the subscriptions at work in real-time.
 

@@ -3,17 +3,17 @@ defmodule Domain.Accounts.Counter do
 
   ## Client Callbacks
 
-  def start_link do
-    GenServer.start_link(__MODULE__, :ok, [name: :sup_counter])
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, %{}, [name: __MODULE__])
   end
 
   def increment_by(by) do
-    GenServer.call(:sup_counter, {:increment, by})
+    GenServer.call(__MODULE__, {:increment, by})
   end
 
   ## Server Callbacks
 
-  def init(:ok) do
+  def init(_) do
     {:ok, %{ version: 0, count: 0 }}
   end
 

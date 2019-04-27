@@ -1,12 +1,12 @@
-defmodule Server.Mixfile do
+defmodule Domain.Umbrella.MixProject do
   use Mix.Project
 
   def project do
-    [apps_path: "apps",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     aliases: aliases(),
-     deps: deps()]
+    [
+      apps_path: "apps",
+      start_permanent: Mix.env() == :prod,
+      deps: deps()
+    ]
   end
 
   # Dependencies can be Hex packages:
@@ -24,9 +24,4 @@ defmodule Server.Mixfile do
   defp deps do
     []
   end
-
-  defp aliases() do
-    [ s: ["phx.server"]]
-  end
-
 end
