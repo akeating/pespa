@@ -48,7 +48,7 @@ npm install
 npm start
 ```
 
-In a different tab browse to `http://localhost:3080`. The default email `demo@example.com` and password `foo` is hardcoded for convenience.
+In a different tab browse to `http://localhost:3000`. The default email `demo@example.com` and password `foo` is hardcoded for convenience.
 
 After logging in in both tabs, you can increment and decrement the counter and observe it synced between client apps.
 
